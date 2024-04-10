@@ -1,15 +1,22 @@
 <script>
 import HeaderComponent from "../components/Header.vue";
-import FooterComponent from '../components/Footer.vue'
+import FooterComponent from '../components/Footer.vue';
 export default {
   components: {
     HeaderComponent,
     FooterComponent
+  },
+  data() {
+    return {
+      classSVG: 'header_svg_home',
+      classNav: 'header_nav_home'
+
+    };
   }
-}
+};
 </script>
 <template>
-  <header-component></header-component>
+  <header-component :classSVG="classSVG" :classNav="classNav"></header-component>
 
   <main>
     <section class="main">
@@ -195,5 +202,13 @@ body {
 
 .mailing {
   padding-bottom: 100px;
+}
+
+.header_svg_home {
+  fill: #FFF;
+}
+
+.header_nav_home {
+  color: #FFF;
 }
 </style>
