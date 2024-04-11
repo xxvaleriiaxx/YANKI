@@ -1,7 +1,7 @@
 <script>
 import HeaderComponent from "../components/Header.vue";
 import FooterComponent from '../components/Footer.vue'
-import CatalogCard from "../components/CatalogCard".vue;
+import CatalogCard from "../components/CatalogCard.vue";
 export default {
   components: {
     HeaderComponent,
@@ -10,6 +10,7 @@ export default {
   },
   data() {
     return {
+      logo: 'logo_secondary.svg',
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
       products: [
@@ -51,7 +52,7 @@ export default {
 };
 </script>
 <template>
-<header-component :classSVG="classSVG" :classNav="classNav"></header-component>
+<header-component :logo="logo" :classSVG="classSVG" :classNav="classNav"></header-component>
 <main>
   <div class="catalog_container">
       <div class="catalog_sidebar">
@@ -99,7 +100,9 @@ export default {
           </select>
         </div>
         <div class="catalog_cards row row-cols-3">
-            <catalog-card v-for="product in products" :product="product"></catalog-card>
+          <div class="col" v-for="prod in products">
+            <catalog-card :product="prod"></catalog-card>
+          </div>
         </div>
       </div>
   </div>
@@ -141,7 +144,7 @@ body {
     appearance: none;
     overflow: hidden;
     background: url("../assets/select_arrow.svg") no-repeat;
-    background-position: 100% 60%;
+    background-position: 100% 50%;
     font-size: 16px;
     border: none;
     outline: none;
@@ -173,21 +176,32 @@ body {
   }
   .catalog_title {
     font-size: 20px;
+    padding-bottom: 30px;
   }
   .catalog_brand {
     font-size: 16px;
+    padding-bottom: 20px;
   }
   .catalog_container {
-    max-width: 1140px;
+    max-width: 1170px;
     width: 100%;
     padding: 0 15px;
     display: flex;
     justify-content: space-between;
+    margin: 0 auto;
   }
   .catalog_filters {
     max-width: 500px;
     width: 100%;
     display: flex;
+    padding-bottom: 15px;
+  }
+  .catalog_sidebar {
+    max-width: 150px;
+    width: 100%;
+  }
+  .catalog_cards {
+    padding-bottom: 100px;
   }
 </style>
 <style>

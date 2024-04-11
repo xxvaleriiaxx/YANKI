@@ -1,7 +1,9 @@
 <script>
 export default {
   data() {
-
+    return {
+      product: {}
+    }
   },
   props: {
     product: Object
@@ -15,13 +17,13 @@ export default {
       <a href="#"></a>
     </div>
     <div class="catalog_card_texts">
-      <h2 class="catalog_card_title">{{{product.title}}}</h2>
+      <h2 class="catalog_card_title">{{product.title}}</h2>
       <div class="catalog_card_status" v-if="product.statusNew">new</div>
     </div>
-    <div class="catalog_card_price">{{{product.price}}}</div>
+    <div class="catalog_card_price">{{product.price}}</div>
     <div class="catalog_card_size">XXS XS S M L</div>
     <div class="catalog_card_colors">
-      <div class="catalog_card_color"></div>
+      <div class="catalog_card_color" v-for="color in product.colors" :style="{'background-color': color}"></div>
     </div>
   </div>
 </template>
@@ -36,7 +38,7 @@ a {
 .catalog_card {
   width: 310px;
   position: relative;
-  padding: 0;
+  margin: 15px 15px 15px 0;
   text-align: center;
 }
 .catalog_card_like {
@@ -77,5 +79,13 @@ a {
   background-color: #FFF;
   border-radius: 100%;
   border: 1px solid #000;
+}
+.catalog_card_color:not(:last-child) {
+  margin-right: 5px;
+}
+.catalog_card_colors {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
 }
 </style>

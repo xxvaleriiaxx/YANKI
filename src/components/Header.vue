@@ -19,13 +19,7 @@
         </nav>
       </div>
       <div class="header_logo">
-        <svg :class="classSVG" width="159" height="40" viewBox="0 0 159 40" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4.33803 0L17.4085 21.5211L30.5915 0H34.8732L19.3803 25.1268V40H15.4366V25.0141L0 0H4.33803Z"/>
-          <path d="M48.7474 0H52.0713L68.691 40H64.522L59.3389 27.493H41.3671L36.2403 40H32.015L48.7474 0ZM58.4375 24.3944L50.3812 4.61972L42.2121 24.3944H58.4375Z"/>
-          <path d="M78.3688 7.26761V40H74.4252V0H77.6928L103.946 33.3521V0.0563369H107.89V40H104.228L78.3688 7.26761Z"/>
-          <path d="M117.944 40V0.0563369H121.888V23.2676L143.916 0H148.254L131.916 17.5775L149.099 40H144.648L129.381 19.9437L121.888 27.7183V40H117.944Z"/>
-          <path d="M154.146 40V0H158.089V40H154.146Z"/>
-        </svg>
+        <img :src="'src/assets/' + logo" alt="">
       </div>
       <div class="header_box_right">
         <div class="image_header">
@@ -82,22 +76,25 @@
 export default {
   props: {
     classNav: String,
-    classSVG: String
+    classSVG: String,
+    logo: String
   }
 }
 </script>
 <style scoped>
 nav {
-  max-width: 230px;
+  max-width: 270px;
   width: 100%;
-  align-self: center
+  align-self: center;
+  padding: 0 30px;
 }
 
 ul {
   display: flex;
   list-style-type: none;
   width: 100%;
-  justify-content: space-between;
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -107,11 +104,12 @@ header {
 }
 
 .header_container {
-  max-width: 1140px;
+  max-width: 1170px;
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin: 0 auto;
+  padding: 0 15px;
 }
 
 .header_box_left {
@@ -141,6 +139,9 @@ header {
 .header_nav_a {
   text-transform: uppercase;
   color: #FFF;
+}
+li:not(:last-child) {
+  padding-right: 25px;
 }
 li, a {
   text-decoration: none;

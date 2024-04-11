@@ -8,6 +8,7 @@ export default {
   },
   data() {
     return {
+      logo: 'logo.svg',
       classSVG: 'header_svg_home',
       classNav: 'header_nav_home'
 
@@ -16,7 +17,7 @@ export default {
 };
 </script>
 <template>
-  <header-component :classSVG="classSVG" :classNav="classNav"></header-component>
+  <header-component :logo="logo"  :classSVG="classSVG" :classNav="classNav"></header-component>
 
   <main>
     <section class="main">

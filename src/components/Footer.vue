@@ -10,7 +10,7 @@
         <div class="footer_box">
           <h3 class="footer_box_title">Полезное</h3>
           <div class="footer_box_point">Оплата и доставка</div>
-          <div class="footer_box_point">Условия возврата</div>
+          <div class="footer_box_point"><router-link :to="{ name: 'exchange&refund' }" class="footer_box_point_a">Условия возврата</router-link></div>
           <div class="footer_box_point">Бонусная система</div>
         </div>
         <div class="footer_box">
@@ -45,7 +45,11 @@
   font-size: 16px;
   font-weight: 100;
   color: #252525;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
+}
+.footer_box_point_a {
+  padding: 0;
+  color: #252525;
 }
 
 .footer_boxes {
@@ -65,5 +69,6 @@
   font-weight: 600;
   text-align: center;
   padding-top: 50px;
+  padding-bottom: 10px;
 }
 </style>
