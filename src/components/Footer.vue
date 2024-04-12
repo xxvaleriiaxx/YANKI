@@ -9,7 +9,7 @@
         </div>
         <div class="footer_box">
           <h3 class="footer_box_title">Полезное</h3>
-          <div class="footer_box_point">Оплата и доставка</div>
+          <div class="footer_box_point"><router-link :to="{ name: 'delivery&payment' }" class="footer_box_point_a">Оплата и доставка</router-link></div>
           <div class="footer_box_point"><router-link :to="{ name: 'exchange&refund' }" class="footer_box_point_a">Условия возврата</router-link></div>
           <div class="footer_box_point">Бонусная система</div>
         </div>

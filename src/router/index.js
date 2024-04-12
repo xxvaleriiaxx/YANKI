@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import CatalogPage from '../views/CatalogPage.vue'
 import ExchangeRefund from "../views/ExchangeRefund.vue";
+import DeliveryPayment from "../views/DeliveryPayment.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/exchange&refund',
       name: 'exchange&refund',
       component: ExchangeRefund
+    },
+    {
+      path: '/delivery&payment',
+      name: 'delivery&payment',
+      component: DeliveryPayment
     }
   ]
 })
