@@ -73,11 +73,23 @@
 </template>
 
 <script>
+import axios from "axios"
+axios.defaults.baseURL = "http://localhost:3000";
 export default {
   props: {
     classNav: String,
     classSVG: String,
     logo: String
+  },
+  methods: {
+    getting_data_user() {
+      if (this.$store.state.user.username && this.$store.state.user.password) {
+        return true
+      }
+      else {
+        return false
+      }
+    }
   }
 }
 </script>
@@ -145,5 +157,69 @@ li:not(:last-child) {
 }
 li, a {
   text-decoration: none;
+}
+</style>
+<style>
+.authorization_popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+
+  transform: translate(-50%, -50%);
+
+}
+.authorization_popup_off {
+  display: none;
+}
+.authorization_popup_on {
+  display: block;
+  z-index: 3;
+}
+.authorization_popup {
+  visibility: visible;
+  opacity: 1;
+}
+.authorization_popup {
+  background: rgba(0,0,0,0.3);
+}
+.authorization_popup_container {
+  width: 600px;
+  height: 382px;
+  background-color: #fff;
+  padding: 50px 100px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.authorization_title {
+  font-size: 20px;
+  padding-bottom: 30px;
+}
+input {
+  font-size: 16px;
+  color: rgba(35,35,35,0.8);
+  padding: 16px 19px;
+  width: 100%;
+  border: 1px solid #252525;
+  margin-bottom: 20px;
+}
+.authorization_form_button {
+  width: 100%;
+  background-color: #E0BEA2;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-size: 16px;
+  padding: 16px 0;
+  border: none;
+}
+.authorization_cross {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
 }
 </style>

@@ -4,8 +4,12 @@ import CatalogPage from '../views/CatalogPage.vue'
 import ExchangeRefund from "../views/ExchangeRefund.vue";
 import DeliveryPayment from "../views/DeliveryPayment.vue";
 import ProductCard from "../views/ProductCard.vue";
+import Authorization from "../views/Authorization.vue"
+import Basket from "../views/Basket.vue"
+import Account from "../views/Account.vue"
+import Favourites from "../views/Favourites.vue"
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -31,6 +35,26 @@ const router = createRouter({
       path: '/product',
       name: 'product',
       component: ProductCard
+    },
+    {
+      path: '/authorization',
+      name: 'authorization',
+      component: Authorization
+    },
+    {
+      path: '/favourites',
+      name: 'favourites',
+      component: Favourites
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account
+    },
+    {
+      path: '/basket',
+      name: 'basket',
+      component: Basket
     }
   ]
 })

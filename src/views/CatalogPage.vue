@@ -54,6 +54,7 @@ export default {
 <template>
 <header-component :logo="logo" :classSVG="classSVG" :classNav="classNav"></header-component>
 <main>
+  <router-link :to="-1">Обратно</router-link>
   <div class="catalog_container">
       <div class="catalog_sidebar">
         <h1 class="catalog_title">Каталог</h1>

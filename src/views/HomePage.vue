@@ -1,6 +1,7 @@
 <script>
 import HeaderComponent from "../components/Header.vue";
 import FooterComponent from '../components/Footer.vue';
+import {store} from "../main"
 export default {
   components: {
     HeaderComponent,
@@ -13,12 +14,17 @@ export default {
       classNav: 'header_nav_home'
 
     };
+  },
+  methods: {
+    getting_data() {
+      this.$store.commit('getting_data')
+      console.log(this.$store.state.user)
+    }
   }
 };
 </script>
 <template>
   <header-component :logo="logo"  :classSVG="classSVG" :classNav="classNav"></header-component>
-
   <main>
     <section class="main">
       <div class="main_container">
@@ -30,6 +36,7 @@ export default {
         </div>
       </div>
     </section>
+    <button @click="getting_data">Проверка</button>
     <section class="categories">
       <div class="categories_container">
         <h2 class="categories_title">Категории</h2>
@@ -212,4 +219,7 @@ body {
 .header_nav_home {
   color: #FFF;
 }
+</style>
+<style scoped>
+
 </style>
