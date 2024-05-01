@@ -8,6 +8,8 @@ import Authorization from "../views/Authorization.vue"
 import Basket from "../views/Basket.vue"
 import Account from "../views/Account.vue"
 import Favourites from "../views/Favourites.vue"
+import {store} from '../main';
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -44,19 +46,44 @@ const router = createRouter({
     {
       path: '/favourites',
       name: 'favourites',
-      component: Favourites
+      component: Favourites,
+      beforeEnter: (to, from, next) => {
+        console.log(store.state.user.email)
+        if (store.state.user.email && store.state.user.password) {
+          next()
+        }else {
+          next({path:'/authorization'})
+        }
+      }
     },
     {
       path: '/account',
       name: 'account',
-      component: Account
+      component: Account,
+      beforeEnter: (to, from, next) => {
+        console.log(store.state.user.email)
+        if (store.state.user.email && store.state.user.password) {
+          next()
+        }else {
+          next({path:'/authorization'})
+        }
+      }
     },
     {
       path: '/basket',
       name: 'basket',
-      component: Basket
+      component: Basket,
+      beforeEnter: (to, from, next) => {
+        console.log(store.state.user.email)
+        if (store.state.user.email && store.state.user.password) {
+          console.log("Корзина")
+          next()
+        }else {
+          console.log("Авторизация")
+          next({path:'/authorization'})
+        }
+      }
     }
   ]
 })
-
 export default router

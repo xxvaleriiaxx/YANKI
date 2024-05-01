@@ -3,7 +3,7 @@ import { createStore} from "vuex";
 import App from './App.vue'
 import router from './router'
 
-export const store = createStore({
+const store = createStore({
     state () {
         return {
             user: {}
@@ -16,7 +16,7 @@ export const store = createStore({
         }
     }
 })
-
+export {store}
 const app = createApp(App)
 
 app.use(store)
