@@ -2,6 +2,8 @@
 import HeaderComponent from "../components/Header.vue";
 import FooterComponent from '../components/Footer.vue'
 import CatalogCard from "../components/CatalogCard.vue";
+import {store} from "../main"
+import axios from "axios";
 export default {
   components: {
     HeaderComponent,
@@ -13,41 +15,17 @@ export default {
       logo: 'logo_secondary.svg',
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
-      products: [
-          {
-            title: "Белая куртка",
-            img: "",
-            price: "2900 руб",
-            sizes: ["XXS", "XS","S","M","L"],
-            colors: ["#FFF", "#6F83A4",  "#F1DDAA"],
-            statusNew: true
-          },
-        {
-          title: "Синее пальто",
-          img: "",
-          price: "6300 руб",
-          sizes: ["XS","M","L"],
-          colors: ["#FFFFFF","#6F83A4","#F1DDAA"],
-          statusNew: false
-        },
-        {
-          title: "Бежевая шуба",
-          img: "",
-          price: "8400 руб",
-          sizes: ["XS","S","L"],
-          colors: ["#FFFFFF","#6F83A4","#F1DDAA"],
-          statusNew: false
-        },
-        {
-          title: "Синяя парка",
-          img: "",
-          price: "5800 руб",
-          sizes: ["XXS", "XS","S","M","L"],
-          colors: ["#FFFFFF","#6F83A4","#F1DDAA"],
-          statusNew: true
-        }
-    ]
-    };
+      products: []
+    }
+  },
+  methods: {
+    async getting_products() {
+      let response = await axios.get("/catalog")
+      this.products = response.data
+    }
+  },
+  mounted() {
+    this.getting_products()
   }
 };
 </script>

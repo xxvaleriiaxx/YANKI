@@ -6,9 +6,13 @@
         <input type="text" placeholder="Ваш e-mail" v-model="email">
         <input type="text" placeholder="Ваш пароль" v-model="password">
         <div class="error" v-if="error">Неверная почта или пароль</div>
+        <div class="authorization_form_box">
+          <a class="authorization_form_box_text" href="#">Забыли пароль?</a>
+          <router-link class="authorization_form_box_text" :to="{name: 'registration'}">Нет аккаунта?</router-link>
+        </div>
         <button class="authorization_form_button">Войти</button>
       </form>
-      <a @click="$router.back()" class="authorization_cross">
+      <a @click="$router.go(-1)" class="authorization_cross">
         <img src="../assets/cross.svg" alt="">
       </a>
     </div>
@@ -35,13 +39,13 @@ export default {
   methods: {
     async gettingData() {
       console.log(this.email, this.password)
-      let response = await axios.post("/users", {
+      let response = await axios.post("/authorization", {
         email: this.email,
         password: this.password
       })
       this.user_data = response.data
       if (this.user_data) {
-        this.getting_data()
+        this.getting_data_user()
         this.$router.back()
       }
       else {
@@ -50,8 +54,8 @@ export default {
       console.log(this.user_data)
 
     },
-    getting_data() {
-      this.$store.commit('getting_data', this.user_data)
+    getting_data_user() {
+      this.$store.commit('getting_data_user', this.user_data)
       console.log("Vuex")
       console.log(this.$store.state.user)
     }
@@ -83,7 +87,7 @@ export default {
 }
 .authorization_popup_container {
   width: 600px;
-  height: 382px;
+  height: 410px;
   background-color: #fff;
   padding: 50px 100px;
   position: relative;
@@ -112,11 +116,25 @@ input {
   padding: 16px 0;
   border: none;
   margin-top: 10px;
+  margin-bottom: 50px;
 }
 .authorization_cross {
   position: absolute;
   top: 0;
   right: 0;
   padding: 20px;
+}
+.authorization_form_box_text {
+  font-size: 16px;
+  color: #000000;
+  text-decoration: #000000;
+  font-weight: 500;
+  line-height: 18px;
+  border-bottom: 1px solid #000000;
+}
+.authorization_form_box {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
 }
 </style>

@@ -6,11 +6,13 @@ import router from './router'
 const store = createStore({
     state () {
         return {
-            user: {}
+            user: {},
+            basket: [],
+            favourites: []
         }
     },
     mutations: {
-        getting_data(state, user_data) {
+        getting_data_user(state, user_data) {
             // изменяем состояние
             state.user = user_data
         }

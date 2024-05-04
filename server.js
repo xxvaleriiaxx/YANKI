@@ -17,20 +17,38 @@ let mongoose = require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/yanki');
 
 
-// Схемы
-let schema = new mongoose.Schema({
+// Схема пользователя
+let schema_user = new mongoose.Schema({
+    email: String,
+    password: String
+});
+let User = mongoose.model('user', schema_user);
+// Схема корзины
+let schema_userBasket = new mongoose.Schema({
     email: String,
     password: String,
-    basket: Array,
-    favourites: Array,
-    earlier: Array
-}, {
-    _id: Boolean,
-    timestamps: Boolean
+    basket: []
 });
+let User_Basket = mongoose.model('basket', schema_userBasket);
+// Схема понравившегося
+let schema_userFavourites = new mongoose.Schema({
+    email: String,
+    password: String,
+    favourites: []
+});
+let User_Favourites = mongoose.model('favourite', schema_user);
 
-let User = mongoose.model('user', schema);
-app.post(`/users`, async function (req, res) {
+let schema_product = new mongoose.Schema({
+    title: String,
+    img: String,
+    price: String,
+    colors: Array,
+    sizes: Array,
+    statusNew: Boolean
+});
+let Product = mongoose.model('product', schema_product);
+
+app.post(`/authorization`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
     console.log(email, password)
@@ -39,4 +57,61 @@ app.post(`/users`, async function (req, res) {
     res.send(data)
 });
 
+app.post(`/registration`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    console.log("регистрация", email, password)
+    let data = await User.findOne({email: email, password: password})
+    console.log("Полученные юзер", data)
+    if (!data) {
+        let user = new User ({
+            email: email,
+            password: password
+        })
+        console.log("Новый юзер", user)
+        await user.save()
+    }
+    else {
+        console.log("Вы есть")
+    }
+    data = await User.findOne({email: email, password: password})
+    res.send(data)
+});
+
+app.post(`/basket`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    console.log(email, password)
+    let data = await User_Basket.findOne({email: email, password: password})
+    console.log(data)
+    res.send(data)
+});
+
+app.post(`/favourites`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    console.log(email, password)
+    let data = await User_Favourites.findOne({email: email, password: password})
+    console.log(data)
+    res.send(data)
+});
+
+app.post(`/delete`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    let index_product = req.body.index_product
+    console.log(email, password, "Индекс", index_product)
+    let data = await User_Basket.findOne({email: email, password: password})
+    console.log(data)
+    data.basket.splice(index_product, 1)
+    console.log("кОРЗИНА:", data.basket)
+    await data.save()
+    res.send(data)
+});
+
+app.get(`/catalog`, async function (req, res) {
+    let data = await Product.find()
+    console.log(data)
+    res.send(data)
+});
 

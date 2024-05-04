@@ -8,6 +8,7 @@ import Authorization from "../views/Authorization.vue"
 import Basket from "../views/Basket.vue"
 import Account from "../views/Account.vue"
 import Favourites from "../views/Favourites.vue"
+import Registration from "../views/Registration.vue";
 import {store} from '../main';
 
 const router = createRouter({
@@ -83,6 +84,11 @@ const router = createRouter({
           next({path:'/authorization'})
         }
       }
+    },
+    {
+      path: '/registration',
+      name: 'registration',
+      component: Registration
     }
   ]
 })

@@ -16,8 +16,8 @@ export default {
     };
   },
   methods: {
-    getting_data() {
-      this.$store.commit('getting_data')
+    getting_data_user() {
+      this.$store.commit('getting_data_user')
       console.log(this.$store.state.user)
     }
   }
@@ -36,7 +36,7 @@ export default {
         </div>
       </div>
     </section>
-    <button @click="getting_data">Проверка</button>
+    <button @click="getting_data_user">Проверка</button>
     <section class="categories">
       <div class="categories_container">
         <h2 class="categories_title">Категории</h2>

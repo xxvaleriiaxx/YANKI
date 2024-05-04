@@ -20,7 +20,7 @@ export default {
       <h2 class="catalog_card_title">{{product.title}}</h2>
       <div class="catalog_card_status" v-if="product.statusNew">new</div>
     </div>
-    <div class="catalog_card_price">{{product.price}}</div>
+    <div class="catalog_card_price">{{product.price}} руб</div>
     <div class="catalog_card_size">XXS XS S M L</div>
     <div class="catalog_card_colors">
       <div class="catalog_card_color" v-for="color in product.colors" :style="{'background-color': color}"></div>
