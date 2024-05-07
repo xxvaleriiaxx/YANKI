@@ -1,6 +1,7 @@
 <script>
 import HeaderComponent from "../components/Header.vue";
 import FooterComponent from '../components/Footer.vue';
+import axios from "axios";
 export default {
   components: {
     HeaderComponent,
@@ -24,7 +25,8 @@ export default {
         }
       ],
       descriptionText: false,
-      structureText: false
+      structureText: false,
+      size_: "M"
     }
   },
   methods: {
@@ -33,6 +35,24 @@ export default {
     },
     getting_product() {
       this.product_ = this.$store.state.product_card
+      console.log(this.product_)
+    },
+    async addToBasket() {
+      console.log(this.$store.state.user.email)
+      if (this.$store.state.user.email) {
+        let response = await axios.post('/addBasket', {
+          email: this.$store.state.user.email,
+          password: this.$store.state.user.password,
+          product: this.product_,
+          size: this.size_
+        })
+        console.log(response)
+      }
+      else {
+        this.$router.push({
+          name: 'authorization',
+        })
+      }
     }
   },
   mounted() {
@@ -47,26 +67,26 @@ export default {
       <div class="product_card">
         <div class="product_card_images">
           <div class="product_card_images_left">
-            <div class="product_card_left_image_box" v-for="image in products[0].images">
-              <img :src="'/src/assets/' + image" alt="" class="product_card_left_image">
+            <div class="product_card_left_image_box" v-for="image in product_.images">
+              <img :src="image" alt="" class="product_card_left_image">
             </div>
           </div>
           <div class="product_card_image_main">
-            <img :src="'/src/assets/' + products[0].image_main" alt="">
+            <img :src="product_.img" alt="">
           </div>
         </div>
         <div class="product_card_texts">
           <div class="product_card_title">{{product_.title}}</div>
           <div class="product_card_price">{{product_.price}} руб</div>
           <div class="product_card_colors">
-            <div class="product_card_color" v-for="color in product_.colors" :style="{'background-color': color}"></div>
+            <div class="product_card_color" v-for="color in product_.colors" :style="{'background-color': color.color}"></div>
           </div>
-          <select size="1" class="product_card_select_size">
-            <option selected>Выберите размер</option>
-            <option value="1" v-for="size in product_.sizes">{{size}}</option>
+          <select size="1" class="product_card_select_size" v-model="size_">
+            <option selected value="Не выбрано">Выберите размер</option>
+            <option v-for="size in product_.sizes" :value="size">{{size}}</option>
           </select>
           <div class="product_card_buttons">
-            <button class="product_card_button_basket">В корзину</button>
+            <button class="product_card_button_basket" @click="addToBasket">В корзину</button>
             <button class="product_card_button_favorites">
               <img src="../assets/favourites.svg" alt="">
               <span>В избранное</span>
@@ -76,14 +96,12 @@ export default {
           <div class="product_card_other">
             <div class="product_card_other_description">
               <button class="product_card_other_description_button other_button" @click="descriptionText=!descriptionText">Обмеры и описание</button>
-              <div class="product_card_other_description_text" v-if="descriptionText" :class="{'appearance_text_on': descriptionText}">{{products[0].description}}</div>
+              <div class="product_card_other_description_text" v-if="descriptionText" :class="{'appearance_text_on': descriptionText}">{{product_.description}}</div>
             </div>
             <div class="product_card_other_structure">
               <button class="product_card_other_structure_button other_button" @click="structureText=!structureText">Состав</button>
               <div class="product_card_other_structure_text" v-if="structureText" :class="{'appearance_text_on': structureText}">
-                Состав: 50% Шерсть, 50% Полиэстер <br/>
-                Подкладка: 100% Полиэстер<br/>
-                Утеплитель: 90% Пух, 10% Перо
+                {{product_.structure}}
               </div>
             </div>
           </div>
@@ -102,8 +120,8 @@ export default {
 }
 
 .product_card_left_image {
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 140px;
 }
 .product_card_images {
   display: flex;
@@ -196,6 +214,9 @@ select {
 .appearance_text_on {
   font-size: 14px;
   animation: 0.3s 0s 1 appearance_text_on normal both running linear;
+}
+.product_card_image_main > img{
+  max-width: 450px;
 }
 @keyframes appearance_text_on {
   0% {

@@ -101,10 +101,7 @@ export default {
           <div class="basket_card" v-for="(product, index) in basket">
             <div class="basket_card_box_main">
               <img :src="product.image" alt="" class="basket_card_box_image">
-              <div class="basket_card_box_texts">
-                <div class="basket_card_box_article">арт. {{product.article}}</div>
-                <div class="basket_card_box_title">{{product.title}}</div>
-              </div>
+              <div class="basket_card_box_title">{{product.title}}</div>
             </div>
             <div class="basket_card_color" :style="{'background-color': product.color}"></div>
             <div class="basket_card_size">{{product.size}}</div>
@@ -146,12 +143,15 @@ export default {
   font-size: 16px;
   font-weight: 800;
   padding-right: 30px;
+  width: 180px;
+  text-align: right;
 }
 .basket_card_box_texts {
   padding-left: 10px;
 }
 .basket_card_box_main {
   display: flex;
+  align-items: center;
 }
 .basket_card_delete {
   background-image: url("../assets/delete.svg");
@@ -226,5 +226,9 @@ select {
   font-size: 16px;
   border: none;
   outline: none;
+}
+.basket_card_box_title {
+  width: 220px;
+  padding-left: 20px;
 }
 </style>

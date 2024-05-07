@@ -3,10 +3,12 @@ export default {
   data() {
     return {
       product: {},
+      favourite_active: true
     }
   },
   props: {
-    product: Object
+    product: Object,
+    favourite_active: Boolean
   }
 }
 </script>
@@ -24,7 +26,7 @@ export default {
         <div class="catalog_card_color" v-for="color in product.colors" :style="{'background-color': color.color}"></div>
       </div>
     </div>
-    <div class="catalog_card_like">
+    <div @click="$emit('update_favourite')" class="catalog_card_like" :class="{'catalog_card_like_active': favourite_active}" >
       <a href="#"></a>
     </div>
   </div>
@@ -84,7 +86,7 @@ a {
 }
 .catalog_card_img {
   width: 310px;
-  height: 360px;
+  height: 400px;
 }
 </style>
 <style>
@@ -95,5 +97,6 @@ a {
   position: absolute;
   right: 0;
   top: 0;
+  cursor: pointer;
 }
 </style>

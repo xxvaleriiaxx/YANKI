@@ -34,27 +34,22 @@ export default {
       console.log("Vuex")
       console.log(this.$store.state.user)
     },
-    async delete_product(index) {
-      let response = await axios.post("/delete", {
+    async update_favourite(index) {
+      console.log(1)
+      let response = await axios.post('/deleteFavourite', {
         email: this.$store.state.user.email,
         password: this.$store.state.user.password,
-        index_product: index
+        favourite_index: index
       })
-      this.total = 0
-      console.log(this.$store.state.user.email, this.$store.state.user.password)
-      this.basket = response.data.basket
-      console.log(this.basket)
-      this.$store.commit('getting_data_user', {
-        email: this.$store.state.user.email,
-        password: this.$store.state.user.password,
-        basket: this.basket
+      console.log(response)
+      await this.getting_favourites()
+    },
+    opening_card(favourite) {
+      this.$store.commit('getting_product_card', favourite)
+      this.$router.push({
+        name: 'product',
       })
-      console.log("Vuex")
-      console.log(this.$store.state.user)
-      for (let i = 0; i < this.basket.length; i++) {
-        this.total += Number(this.basket[i].price) * Number(this.basket[i].count)
-      }
-    }
+    },
   },
   mounted() {
     this.getting_favourites()
@@ -66,8 +61,8 @@ export default {
   <section class="favourites">
     <div class="favourites_container">
       <div class="favourites_cards row row-cols-3">
-        <div class="col" v-for="favourite in favourites">
-          <catalog-card :product="favourite"></catalog-card>
+        <div class="col" v-for="(favourite, index) in favourites">
+          <catalog-card :product="favourite" :favourite_active="true" v-on:update_favourite="update_favourite(index)" v-on:opening_card="opening_card(favourite)"></catalog-card>
         </div>
       </div>
     </div>

@@ -26,11 +26,26 @@ export default {
     },
     opening_card(prod) {
       this.active_product = prod
-      console.log(this.active_product)
       this.$store.commit('getting_product_card', this.active_product)
       this.$router.push({
         name: 'product',
       })
+    },
+    async update_favourite(prod) {
+      if (this.$store.state.user.email) {
+        console.log(1)
+        let response = await axios.post('/addFavourite', {
+          email: this.$store.state.user.email,
+          password: this.$store.state.user.password,
+          favourite: prod
+        })
+        console.log(response)
+      }
+      else {
+        this.$router.push({
+          name: 'authorization',
+        })
+      }
     }
   },
   mounted() {
@@ -41,7 +56,6 @@ export default {
 <template>
 <header-component :logo="logo" :classSVG="classSVG" :classNav="classNav"></header-component>
 <main>
-  <router-link :to="-1">Обратно</router-link>
   <div class="catalog_container">
       <div class="catalog_sidebar">
         <h1 class="catalog_title">Каталог</h1>
@@ -89,7 +103,7 @@ export default {
         </div>
         <div class="catalog_cards row row-cols-3">
           <div class="col" v-for="prod in products">
-            <catalog-card :product="prod" v-on:opening_card="opening_card(prod)"></catalog-card>
+            <catalog-card :product="prod" v-on:opening_card="opening_card(prod)" v-on:update_favourite="update_favourite(prod)"></catalog-card>
           </div>
         </div>
       </div>

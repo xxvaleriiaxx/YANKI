@@ -36,7 +36,7 @@ let schema_userFavourites = new mongoose.Schema({
     password: String,
     favourites: [{}]
 });
-let User_Favourites = mongoose.model('favourite', schema_user);
+let User_Favourites = mongoose.model('favourite', schema_userFavourites);
 
 let schema_product = new mongoose.Schema({
     title: String,
@@ -52,6 +52,7 @@ let schema_product = new mongoose.Schema({
 });
 let Product = mongoose.model('product', schema_product);
 
+//Авторизация
 app.post(`/authorization`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -61,6 +62,7 @@ app.post(`/authorization`, async function (req, res) {
     res.send(data)
 });
 
+//Регистрация
 app.post(`/registration`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -82,6 +84,7 @@ app.post(`/registration`, async function (req, res) {
     res.send(data)
 });
 
+//Получение товаров в корзине
 app.post(`/basket`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -91,6 +94,7 @@ app.post(`/basket`, async function (req, res) {
     res.send(data)
 });
 
+//Получение понравившихся товаров
 app.post(`/favourites`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -100,6 +104,7 @@ app.post(`/favourites`, async function (req, res) {
     res.send(data)
 });
 
+//Удаление из корзины
 app.post(`/delete`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -113,12 +118,14 @@ app.post(`/delete`, async function (req, res) {
     res.send(data)
 });
 
+//Получение каталога
 app.get(`/catalog`, async function (req, res) {
     let data = await Product.find()
     console.log(data)
     res.send(data)
 });
 
+//Изменение количества продукта
 app.post(`/count_product`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -136,11 +143,55 @@ app.post(`/count_product`, async function (req, res) {
     res.send(user_basket_update)
 });
 
-app.post(`/favourites`, async function (req, res) {
+//Добавление в корзину
+app.post(`/addBasket`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
-    let data = await User_Favourites.findOne({email: email, password: password})
+    let product = req.body.product
+    let size = req.body.size
+    console.log(email, password, product)
+    let data = await User_Basket.findOne({email: email, password: password})
+    let addProduct = {
+        _id: product._id,
+        image: product.img,
+        title: product.title,
+        color: product.colors[0].color,
+        size: size,
+        count: "1",
+        price: product.price,
+    }
+    data.basket.push(addProduct)
+    await data.save()
     console.log(data)
     res.send(data)
 });
+//Удаление избранного
+app.post(`/deleteFavourite`, async function (req, res) {
+    console.log(1)
+    let email = req.body.email
+    let password = req.body.password
+    let favourite_index = req.body.favourite_index
+    console.log(email, password, "Индекс избранного", favourite_index)
+    let data = await User_Favourites.findOne({email: email, password: password})
+    data.favourites.splice(favourite_index, 1)
+    console.log("Избранное:", data.favourites)
+    await data.save()
+    res.send(data)
+    console.log(data)
 
+});
+
+app.post(`/addFavourite`, async function (req, res) {
+    console.log(1)
+    let email = req.body.email
+    let password = req.body.password
+    let favourite = req.body.favourite
+    console.log(email, password, "B избранное", favourite)
+    let data = await User_Favourites.findOne({email: email, password: password})
+    data.favourites.push(favourite)
+    console.log("Избранное:", data.favourites)
+    await data.save()
+    res.send(data)
+    console.log(data)
+
+});

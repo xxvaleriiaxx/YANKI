@@ -36,7 +36,6 @@ export default {
         </div>
       </div>
     </section>
-    <button @click="getting_data_user">Проверка</button>
     <section class="categories">
       <div class="categories_container">
         <h2 class="categories_title">Категории</h2>
