@@ -1,0 +1,20 @@
+<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <clipPath id="clip0_1_1377">
+   <rect id="svg_1" x="13" y="12" fill="white" height="15" width="15"/>
+  </clipPath>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_2" fill="#E0BEA2" d="m0,0l40,0l0,40l-20,0c-11.04569,0 -20,-8.9543 -20,-20l0,-20z"/>
+  <g id="svg_3" clip-path="url(#clip0_1_1377)">
+   <path id="svg_4" fill="white" d="m20.5006,13.8967c1.7617,-1.5817 4.4842,-1.5292 6.1814,0.171c1.6965,1.701 1.755,4.4099 0.177,6.1769l-6.3599,6.3689l-6.3584,-6.3689c-1.5779,-1.767 -1.5187,-4.4804 0.177,-6.1769c1.6987,-1.698 4.4159,-1.755 6.1829,-0.171zm5.1194,1.2307c-1.125,-1.1264 -2.9399,-1.1722 -4.1174,-0.1147l-1.0012,0.8985l-1.002,-0.8978c-1.1812,-1.0589 -2.9925,-1.0124 -4.1204,0.1155c-1.1175,1.1175 -1.1738,2.9062 -0.144,4.0882l5.2649,5.2732l5.2649,-5.2724c1.0304,-1.1828 0.9742,-2.9692 -0.1448,-4.0905z"/>
+  </g>
+  <ellipse stroke="null" transform="rotate(54.66349792480469 19.06748390197754,19.35296630859375) " ry="4.020619" rx="6.05002" id="svg_6" cy="19.352967" cx="19.067484" stroke-opacity="null" stroke-width="null" fill="#ffffff"/>
+  <ellipse stroke="null" transform="rotate(133.6588897705078 22.36645317077637,19.146780014038086) " ry="4.020619" rx="6.05002" id="svg_8" cy="19.146782" cx="22.366453" stroke-opacity="null" stroke-width="null" fill="#ffffff"/>
+ </g>
+</svg>
