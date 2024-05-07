@@ -27,23 +27,27 @@ let User = mongoose.model('user', schema_user);
 let schema_userBasket = new mongoose.Schema({
     email: String,
     password: String,
-    basket: []
+    basket: [{}]
 });
 let User_Basket = mongoose.model('basket', schema_userBasket);
 // Схема понравившегося
 let schema_userFavourites = new mongoose.Schema({
     email: String,
     password: String,
-    favourites: []
+    favourites: [{}]
 });
 let User_Favourites = mongoose.model('favourite', schema_user);
 
 let schema_product = new mongoose.Schema({
     title: String,
     img: String,
+    images: Array,
+    description: String,
+    structure: String,
     price: String,
     colors: Array,
     sizes: Array,
+    category: String,
     statusNew: Boolean
 });
 let Product = mongoose.model('product', schema_product);
@@ -111,6 +115,31 @@ app.post(`/delete`, async function (req, res) {
 
 app.get(`/catalog`, async function (req, res) {
     let data = await Product.find()
+    console.log(data)
+    res.send(data)
+});
+
+app.post(`/count_product`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    let index_product = req.body.index_product
+    let count = req.body.count
+    console.log(email, password, "Индекс", index_product, count)
+    let user_basket_update = await User_Basket.findOne({email: email, password: password})
+    console.log(user_basket_update)
+    user_basket_update.basket[index_product].count = String(Number(user_basket_update.basket[index_product].count) + Number(count))
+    user_basket_update.markModified('basket')
+    await user_basket_update.save()
+    console.log("Изменение:", user_basket_update)
+    user_basket_update = await User_Basket.findOne({email: email, password: password})
+    console.log("После изменение:", user_basket_update)
+    res.send(user_basket_update)
+});
+
+app.post(`/favourites`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    let data = await User_Favourites.findOne({email: email, password: password})
     console.log(data)
     res.send(data)
 });

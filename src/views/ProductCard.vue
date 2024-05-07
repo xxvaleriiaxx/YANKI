@@ -11,6 +11,7 @@ export default {
       logo: 'logo_secondary.svg',
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
+      product_: {},
       products: [
         {
           title: "Кремовое пальто",
@@ -29,10 +30,13 @@ export default {
   methods: {
     description_text() {
         this.descriptionText = !this.descriptionText
+    },
+    getting_product() {
+      this.product_ = this.$store.state.product_card
     }
   },
-  computed:  {
-
+  mounted() {
+    this.getting_product()
   }
 }
 </script>
@@ -52,14 +56,14 @@ export default {
           </div>
         </div>
         <div class="product_card_texts">
-          <div class="product_card_title">{{products[0].title}}</div>
-          <div class="product_card_price">{{products[0].price}}</div>
+          <div class="product_card_title">{{product_.title}}</div>
+          <div class="product_card_price">{{product_.price}} руб</div>
           <div class="product_card_colors">
-            <div class="product_card_color" v-for="color in products[0].colors" :style="{'background-color': color}"></div>
+            <div class="product_card_color" v-for="color in product_.colors" :style="{'background-color': color}"></div>
           </div>
           <select size="1" class="product_card_select_size">
             <option selected>Выберите размер</option>
-            <option value="1" v-for="size in products[0].sizes">{{size}}</option>
+            <option value="1" v-for="size in product_.sizes">{{size}}</option>
           </select>
           <div class="product_card_buttons">
             <button class="product_card_button_basket">В корзину</button>

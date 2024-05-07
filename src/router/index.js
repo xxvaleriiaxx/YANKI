@@ -22,7 +22,8 @@ const router = createRouter({
     {
       path: '/catalog',
       name: 'catalog',
-      component: CatalogPage
+      component: CatalogPage,
+      props: true
     },
     {
       path: '/exchange&refund',
@@ -37,6 +38,7 @@ const router = createRouter({
     {
       path: '/product',
       name: 'product',
+      props: true,
       component: ProductCard
     },
     {

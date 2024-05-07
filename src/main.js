@@ -8,13 +8,17 @@ const store = createStore({
         return {
             user: {},
             basket: [],
-            favourites: []
+            favourites: [],
+            product_card: {}
         }
     },
     mutations: {
         getting_data_user(state, user_data) {
             // изменяем состояние
             state.user = user_data
+        },
+        getting_product_card(state, active_product) {
+            state.product_card = active_product
         }
     }
 })

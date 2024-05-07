@@ -15,13 +15,22 @@ export default {
       logo: 'logo_secondary.svg',
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
-      products: []
+      products: [],
+      active_product: {}
     }
   },
   methods: {
     async getting_products() {
       let response = await axios.get("/catalog")
       this.products = response.data
+    },
+    opening_card(prod) {
+      this.active_product = prod
+      console.log(this.active_product)
+      this.$store.commit('getting_product_card', this.active_product)
+      this.$router.push({
+        name: 'product',
+      })
     }
   },
   mounted() {
@@ -80,7 +89,7 @@ export default {
         </div>
         <div class="catalog_cards row row-cols-3">
           <div class="col" v-for="prod in products">
-            <catalog-card :product="prod"></catalog-card>
+            <catalog-card :product="prod" v-on:opening_card="opening_card(prod)"></catalog-card>
           </div>
         </div>
       </div>

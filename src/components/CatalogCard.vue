@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      product: {}
+      product: {},
     }
   },
   props: {
@@ -12,18 +12,20 @@ export default {
 </script>
 <template>
   <div class="catalog_card col">
-    <img class="catalog_card_img" src="../assets/catalog_card1.png" alt="">
+    <div class="catalog_card_container" @click="$emit('opening_card')">
+      <img class="catalog_card_img" :src="product.img" alt="">
+      <div class="catalog_card_texts">
+        <h2 class="catalog_card_title">{{product.title}}</h2>
+        <div class="catalog_card_status" v-if="product.statusNew">new</div>
+      </div>
+      <div class="catalog_card_price">{{product.price}} руб</div>
+      <div class="catalog_card_size">XXS XS S M L</div>
+      <div class="catalog_card_colors">
+        <div class="catalog_card_color" v-for="color in product.colors" :style="{'background-color': color.color}"></div>
+      </div>
+    </div>
     <div class="catalog_card_like">
       <a href="#"></a>
-    </div>
-    <div class="catalog_card_texts">
-      <h2 class="catalog_card_title">{{product.title}}</h2>
-      <div class="catalog_card_status" v-if="product.statusNew">new</div>
-    </div>
-    <div class="catalog_card_price">{{product.price}} руб</div>
-    <div class="catalog_card_size">XXS XS S M L</div>
-    <div class="catalog_card_colors">
-      <div class="catalog_card_color" v-for="color in product.colors" :style="{'background-color': color}"></div>
     </div>
   </div>
 </template>
@@ -40,14 +42,6 @@ a {
   position: relative;
   margin: 15px 15px 15px 0;
   text-align: center;
-}
-.catalog_card_like {
-  width: 40px;
-  height: 40px;
-  background: url("../assets/like.svg");
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 .catalog_card_title {
   color: #252525;
@@ -87,5 +81,19 @@ a {
   display: flex;
   justify-content: center;
   margin-top: 5px;
+}
+.catalog_card_img {
+  width: 310px;
+  height: 360px;
+}
+</style>
+<style>
+.catalog_card_like {
+  width: 40px;
+  height: 40px;
+  background: url("../assets/like.svg");
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 </style>

@@ -13,7 +13,8 @@ export default {
       logo: 'logo_secondary.svg',
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
-      basket: []
+      basket: [],
+      total: 0
     };
   },
   methods: {
@@ -22,6 +23,9 @@ export default {
         email: this.$store.state.user.email,
         password: this.$store.state.user.password
       })
+      this.total = 0
+      console.log("получение")
+      console.log(response)
       this.basket = response.data.basket
       console.log(this.basket)
       this.$store.commit('getting_data_user', {
@@ -31,6 +35,34 @@ export default {
       })
       console.log("Vuex")
       console.log(this.$store.state.user)
+      for (let i = 0; i < this.basket.length; i++) {
+        this.total += Number(this.basket[i].price) * Number(this.basket[i].count)
+      }
+    },
+    async sending_product_count(count, index) {
+      if (Number(this.basket[index].count) + Number(count) > 0) {
+        let response = await axios.post("/count_product", {
+          email: this.$store.state.user.email,
+          password: this.$store.state.user.password,
+          index_product: index,
+          count: count
+        })
+        this.total = 0
+        this.basket = response.data.basket
+        console.log("Актуал")
+        console.log(this.basket)
+        console.log(this.basket.length)
+        this.$store.commit('getting_data_user', {
+          email: this.$store.state.user.email,
+          password: this.$store.state.user.password,
+          basket: this.basket
+        })
+        console.log("Vuex")
+        console.log(this.$store.state.user)
+        for (let i = 0; i < this.basket.length; i++) {
+          this.total += Number(this.basket[i].price) * Number(this.basket[i].count)
+        }
+      }
     },
     async delete_product(index) {
       let response = await axios.post("/delete", {
@@ -38,6 +70,7 @@ export default {
         password: this.$store.state.user.password,
         index_product: index
       })
+      this.total = 0
       console.log(this.$store.state.user.email, this.$store.state.user.password)
       this.basket = response.data.basket
       console.log(this.basket)
@@ -48,6 +81,9 @@ export default {
       })
       console.log("Vuex")
       console.log(this.$store.state.user)
+      for (let i = 0; i < this.basket.length; i++) {
+        this.total += Number(this.basket[i].price) * Number(this.basket[i].count)
+      }
     }
   },
   mounted() {
@@ -71,22 +107,19 @@ export default {
               </div>
             </div>
             <div class="basket_card_color" :style="{'background-color': product.color}"></div>
-            <div class="basket_card_size">
-              <select>
-
-              </select>
-            </div>
+            <div class="basket_card_size">{{product.size}}</div>
             <div class="basket_card_count_box">
-              <div class="basket_card_count_minus">-</div>
+              <div class="basket_card_count_minus" @click="sending_product_count(-1, index)">-</div>
               <div class="basket_card_count">{{product.count}}</div>
-              <div class="basket_card_count_plus">+</div>
+              <div class="basket_card_count_plus" @click="sending_product_count(1, index)">+</div>
             </div>
             <div class="basket_card_box_main">
-              <div class="basket_card_price">{{product.price}} руб</div>
+              <div class="basket_card_price">{{product.price*product.count}} руб</div>
               <button class="basket_card_delete" @click="delete_product(index)"></button>
             </div>
           </div>
         </div>
+        <div class="basket_total">К оплате: <span>{{total}} руб</span></div>
       </div>
 
     </section>
@@ -154,6 +187,7 @@ export default {
 .basket_card_count_minus, .basket_card_count_plus {
   font-size: 30px;
   color: #E0BEA2;
+  cursor: pointer;
 }
 .basket_card_count_minus {
   padding-bottom: 2px;
@@ -166,10 +200,31 @@ export default {
   padding: 16px;
 }
 .basket_card_size {
-  padding: 16px 16px 16px 30px;
+  padding: 16px 20px;
 }
 .basket_title {
   font-size: 20px;
   padding-bottom: 20px;
+}
+.basket_total {
+  padding-top: 30px;
+  font-size: 16px;
+  text-align: right;
+  font-weight: 400;
+}
+.basket_total > span {
+  font-size: 16px;
+  font-weight: 1000;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  overflow: hidden;
+  background: url("../assets/select_arrow.svg") no-repeat;
+  background-position: 100% 50%;
+  font-size: 16px;
+  border: none;
+  outline: none;
 }
 </style>
