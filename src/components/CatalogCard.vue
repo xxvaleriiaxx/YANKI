@@ -88,6 +88,9 @@ a {
   width: 310px;
   height: 400px;
 }
+.catalog_card_title {
+  max-width: 220px;
+}
 </style>
 <style>
 .catalog_card_like {

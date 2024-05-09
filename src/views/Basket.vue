@@ -14,7 +14,14 @@ export default {
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
       basket: [],
-      total: 0
+      total: 0,
+      personalData: {
+        email: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        address: ""
+      }
     };
   },
   methods: {
@@ -84,10 +91,23 @@ export default {
       for (let i = 0; i < this.basket.length; i++) {
         this.total += Number(this.basket[i].price) * Number(this.basket[i].count)
       }
+    },
+    async getting_personalData() {
+      let response = await axios.post("/personalData", {
+        email: this.$store.state.user.email,
+        password: this.$store.state.user.password,
+      })
+      this.personalData.email = response.data.email
+      this.personalData.firstName = response.data.data.firstName
+      this.personalData.lastName = response.data.data.lastName
+      this.personalData.phoneNumber = response.data.data.phoneNumber
+      this.personalData.address = response.data.data.address
+      console.log(this.personalData)
     }
   },
   mounted() {
     this.getting_basket()
+    this.getting_personalData()
   }
 };
 </script>
@@ -119,6 +139,85 @@ export default {
         <div class="basket_total">К оплате: <span>{{total}} руб</span></div>
       </div>
 
+    </section>
+    <section class="order_registration">
+      <div class="order_registration_container">
+        <h2 class="order_registration_title">Оформление заказа</h2>
+        <form>
+          <div class="order_registration_form">
+            <div class="order_registration_col_left">
+              <label>Персональыне данные:</label>
+              <div class="row row-cols-2">
+                <div class="col">
+                  <input value="Ваше имя*" type="text" v-model="personalData.firstName">
+                </div>
+                <div class="col">
+                  <input value="Ваша фамилия*" type="text" v-model="personalData.lastName">
+                </div>
+                <div class="col">
+                  <input value="Ваш e-mail*" type="text" v-model="personalData.email">
+                </div>
+                <div class="col">
+                  <input value="Ваш телефон*" type="text" v-model="personalData.phoneNumber">
+                </div>
+              </div>
+              <label>Способ доставки:</label>
+              <div class="row row-cols-2">
+                <div class="col">
+                  <div class="order_registration_form_box">
+                    <input value="СДЕК" type="radio" class="order_registration_radio" name="delivery">
+                    <label>СДЕК</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="order_registration_form_box">
+                    <input value="Boxberry" type="radio" class="order_registration_radio" name="delivery">
+                    <label>Boxberry</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="order_registration_form_box">
+                    <input value="Почта России" type="radio" class="order_registration_radio" name="delivery">
+                    <label>Почта России</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="order_registration_form_box">
+                    <input value="Курьерская доставка YANKI" type="radio" class="order_registration_radio" name="delivery">
+                    <label>Курьерская доставка YANKI</label>
+                  </div>
+                </div>
+              </div>
+              <label>Адресс доставки:</label>
+              <div class="order_registration_address">
+                <input value="Город, улица, дом, квартира*" type="text" v-model="personalData.address">
+              </div>
+              <label>Оплата:</label>
+              <div class="row row-cols-2">
+                <div class="col">
+                  <div class="order_registration_form_box">
+                    <input value="Перевод" type="radio" class="order_registration_radio" name="payment">
+                    <label>Денежным переводом Visa/Mastercard/МИР</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="order_registration_form_box">
+                    <input value="Наличными" type="radio" class="order_registration_radio" name="payment">
+                    <label>Наличными</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="order_registration_col_right">
+              <div class="order_registration_total">
+                <div class="order_registration_total_text">ИТОГО:</div>
+                <div class="order_registration_total_count">{{total}} руб</div>
+              </div>
+              <button class="order_registration_button">ОФОРМИТЬ ЗАКАЗ</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
   <footer-component></footer-component>
@@ -230,5 +329,72 @@ select {
 .basket_card_box_title {
   width: 220px;
   padding-left: 20px;
+}
+
+.order_registration_radio {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  padding: 4px;
+  background-clip: content-box;
+  border: 2px solid #bbbbbb;
+  background-color: #e7e6e7;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.order_registration_radio:checked {
+  background-color: #E0BEA2;
+}
+.order_registration_col_left {
+  width: 820px;
+  margin-right: 20px;
+}
+.order_registration_container {
+  max-width: 1170px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+label {
+  font-size: 16px;
+  padding-bottom: 20px;
+}
+input[type="text"] {
+  padding: 16px 0 15px 19px;
+  color: #939393;
+  border: 1px solid #939393;
+  width: 100%;
+  margin: 0 20px 20px 0;
+}
+.order_registration_title {
+  font-size: 20px;
+  padding-bottom: 30px;
+}
+.order_registration_form {
+  display: flex;
+  justify-content: space-between;
+}
+.order_registration_col_right {
+  width: 300px;
+}
+.order_registration_button {
+  width: 100%;
+  padding: 16px 74px;
+  color: #FFFFFF;
+  background-color: #E0BEA2;
+  border: none;
+}
+.order_registration_total_count {
+  font-weight: 800;
+}
+.order_registration_total {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+.order_registration {
+  margin: 70px 0 100px;
 }
 </style>

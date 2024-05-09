@@ -52,6 +52,19 @@ let schema_product = new mongoose.Schema({
 });
 let Product = mongoose.model('product', schema_product);
 
+let schema_personalData = new mongoose.Schema({
+    email: String,
+    password: String,
+    data: Object
+});
+let PersonalData = mongoose.model('dataset', schema_personalData);
+
+let schema_orders = new mongoose.Schema({
+    email: String,
+    password: String,
+    orders: Array
+});
+let Orders = mongoose.model('order', schema_orders);
 //Авторизация
 app.post(`/authorization`, async function (req, res) {
     let email = req.body.email
@@ -181,6 +194,7 @@ app.post(`/deleteFavourite`, async function (req, res) {
 
 });
 
+//Добавление в избранное
 app.post(`/addFavourite`, async function (req, res) {
     console.log(1)
     let email = req.body.email
@@ -194,4 +208,23 @@ app.post(`/addFavourite`, async function (req, res) {
     res.send(data)
     console.log(data)
 
+});
+
+//Получение персональных данных
+app.post(`/personalData`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    console.log(email, password)
+    let data = await PersonalData.findOne({email: email, password: password})
+    console.log(data)
+    res.send(data)
+});
+
+app.post(`/orders`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    console.log(email, password)
+    let data = await Orders.findOne({email: email, password: password})
+    console.log(data)
+    res.send(data)
 });
