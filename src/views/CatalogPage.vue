@@ -112,17 +112,6 @@ export default {
 <footer-component></footer-component>
 </template>
 <style scoped>
-@font-face {
-  font-family: "Raleway-Variable";
-  font-style: normal;
-  font-weight: 300;
-  /* Браузер сначала попробует найти шрифт локально */
-  src: local("Raleway-Var"),
-    /* Если не получилось, загрузит woff2 */
-  url("../fonts/Raleway-Variable.woff2") format("woff2"),
-  url("../fonts/Raleway-Variable.woff") format("woff");
-}
-
 body {
   margin: 0;
 }
@@ -130,7 +119,7 @@ body {
 * {
   margin: 0;
   padding: 0;
-  font-family: Raleway-Variable;
+  font-family: Raleway-YANKI;
   font-weight: 300;
   color: #000;
 }

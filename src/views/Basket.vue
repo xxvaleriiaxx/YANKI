@@ -21,7 +21,9 @@ export default {
         lastName: "",
         phoneNumber: "",
         address: ""
-      }
+      },
+      delivery: "",
+      payment: ""
     };
   },
   methods: {
@@ -103,6 +105,17 @@ export default {
       this.personalData.phoneNumber = response.data.data.phoneNumber
       this.personalData.address = response.data.data.address
       console.log(this.personalData)
+    },
+    async registration_order() {
+      let response = await axios.post("/registration_order", {
+        email: this.$store.state.user.email,
+        password: this.$store.state.user.password,
+        total: this.total,
+        delivery: this.delivery,
+        payment: this.payment,
+        basket: this.basket,
+        personalData: this.personalData
+      })
     }
   },
   mounted() {
@@ -143,66 +156,66 @@ export default {
     <section class="order_registration">
       <div class="order_registration_container">
         <h2 class="order_registration_title">Оформление заказа</h2>
-        <form>
+        <form @submit.prevent="registration_order">
           <div class="order_registration_form">
             <div class="order_registration_col_left">
               <label>Персональыне данные:</label>
               <div class="row row-cols-2">
                 <div class="col">
-                  <input value="Ваше имя*" type="text" v-model="personalData.firstName">
+                  <input placeholder="Ваше имя*" type="text" v-model="personalData.firstName">
                 </div>
                 <div class="col">
-                  <input value="Ваша фамилия*" type="text" v-model="personalData.lastName">
+                  <input placeholder="Ваша фамилия*" type="text" v-model="personalData.lastName">
                 </div>
                 <div class="col">
-                  <input value="Ваш e-mail*" type="text" v-model="personalData.email">
+                  <input placeholder="Ваш e-mail*" type="text" v-model="personalData.email">
                 </div>
                 <div class="col">
-                  <input value="Ваш телефон*" type="text" v-model="personalData.phoneNumber">
+                  <input placeholder="Ваш телефон*" type="text" v-model="personalData.phoneNumber">
                 </div>
               </div>
               <label>Способ доставки:</label>
               <div class="row row-cols-2">
                 <div class="col">
                   <div class="order_registration_form_box">
-                    <input value="СДЕК" type="radio" class="order_registration_radio" name="delivery">
+                    <input value="СДЕК" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
                     <label>СДЕК</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="order_registration_form_box">
-                    <input value="Boxberry" type="radio" class="order_registration_radio" name="delivery">
+                    <input value="Boxberry" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
                     <label>Boxberry</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="order_registration_form_box">
-                    <input value="Почта России" type="radio" class="order_registration_radio" name="delivery">
+                    <input value="Почта России" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
                     <label>Почта России</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="order_registration_form_box">
-                    <input value="Курьерская доставка YANKI" type="radio" class="order_registration_radio" name="delivery">
+                    <input value="Курьерская доставка YANKI" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
                     <label>Курьерская доставка YANKI</label>
                   </div>
                 </div>
               </div>
               <label>Адресс доставки:</label>
               <div class="order_registration_address">
-                <input value="Город, улица, дом, квартира*" type="text" v-model="personalData.address">
+                <input placeholder="Город, улица, дом, квартира*" type="text" v-model="personalData.address">
               </div>
               <label>Оплата:</label>
               <div class="row row-cols-2">
                 <div class="col">
                   <div class="order_registration_form_box">
-                    <input value="Перевод" type="radio" class="order_registration_radio" name="payment">
+                    <input value="Безналичными" type="radio" class="order_registration_radio" name="payment" v-model="payment">
                     <label>Денежным переводом Visa/Mastercard/МИР</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="order_registration_form_box">
-                    <input value="Наличными" type="radio" class="order_registration_radio" name="payment">
+                    <input value="Наличными" type="radio" class="order_registration_radio" name="payment" v-model="payment">
                     <label>Наличными</label>
                   </div>
                 </div>

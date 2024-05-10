@@ -100,7 +100,7 @@ export default {
 </script>
 <style scoped>
 nav {
-  max-width: 270px;
+  max-width: 275px;
   width: 100%;
   align-self: center;
   padding: 0 30px;

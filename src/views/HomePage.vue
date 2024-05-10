@@ -64,7 +64,7 @@ export default {
       <div class="mailing_container">
         <h2 class="mailing_title">Узнайте  первым о новинках</h2>
         <form action="">
-          <input type="text" value="Ваш e-mail*" class="mailing_form_input">
+          <input type="text" placeholder="Ваш e-mail*" class="mailing_form_input">
           <button class="mailing_form_button">Подписаться</button>
         </form>
         <p class="mailing_text">Нажимая на кнопку «Подписаться», я соглашаюсь на обработку моих персональных данных и ознакомлен(а) с условиями конфиденциальности.</p>
@@ -76,14 +76,25 @@ export default {
 
 <style>
 @font-face {
-  font-family: "Raleway-Variable";
+  font-family: 'Raleway-YANKI';
+  src: url('../fonts/Raleway-ExtraLight.woff2') format('woff2'),
+  url('../fonts/Raleway-ExtraLight.woff') format('woff');
+  font-weight: 200;
   font-style: normal;
+}
+@font-face {
+  font-family: 'Raleway-YANKI';
+  src: url('../fonts/Raleway-Light.woff2') format('woff2'),
+  url('../fonts/Raleway-Light.woff') format('woff');
   font-weight: 300;
-  /* Браузер сначала попробует найти шрифт локально */
-  src: local("Raleway-Var"),
-    /* Если не получилось, загрузит woff2 */
-  url("../fonts/Raleway-Variable.woff2") format("woff2"),
-  url("../fonts/Raleway-Variable.woff") format("woff");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Raleway-YANKI';
+  src: url('../fonts/Raleway-Bold.woff2') format('woff2'),
+  url('../fonts/Raleway-Bold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
 }
 
 body {
@@ -93,9 +104,10 @@ body {
 * {
   margin: 0;
   padding: 0;
-  font-family: Raleway-Variable;
+  font-family: Raleway-YANKI;
   font-weight: 300;
   color: #000;
+  font-feature-settings: 'lnum' 1;
 }
 
 .main {

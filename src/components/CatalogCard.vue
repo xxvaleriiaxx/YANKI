@@ -58,8 +58,8 @@ a {
 }
 .catalog_card_price {
   font-size: 19px;
-  font-weight: 1000;
-  font-family: Calibri;
+  font-weight: 800;
+  font-family: Raleway-YANKI;
 }
 .catalog_card_texts {
   display: inline-block;

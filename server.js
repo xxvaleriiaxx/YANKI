@@ -55,7 +55,12 @@ let Product = mongoose.model('product', schema_product);
 let schema_personalData = new mongoose.Schema({
     email: String,
     password: String,
-    data: Object
+    data: {
+        firstName: String,
+        lastName: String,
+        phoneNumber: String,
+        address: String
+    }
 });
 let PersonalData = mongoose.model('dataset', schema_personalData);
 
@@ -216,15 +221,76 @@ app.post(`/personalData`, async function (req, res) {
     let password = req.body.password
     console.log(email, password)
     let data = await PersonalData.findOne({email: email, password: password})
-    console.log(data)
+    console.log("Получение персональных данных", data)
     res.send(data)
 });
-
+//Получение старых заказов
 app.post(`/orders`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
     console.log(email, password)
     let data = await Orders.findOne({email: email, password: password})
+    console.log("Получение старых заказов", data)
+    res.send(data)
+});
+//Изменение персональных данных
+app.post(`/update_personal_data`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    let personalData = req.body.personalData
+    console.log("update данных: ", email, password, personalData)
+    let data = await PersonalData.findOne({email: email, password: password})
     console.log(data)
+    data.email = personalData.email
+    data.data.firstName = personalData.firstName
+    data.data.lastName = personalData.lastName
+    data.data.phoneNumber = personalData.phoneNumber
+    data.data.address = personalData.address
+    res.send(data.email)
+    await data.save()
+    data = await User.findOne({email: email, password: password})
+    data.email = personalData.email
+    await data.save()
+    data = await User_Basket.findOne({email: email, password: password})
+    data.email = personalData.email
+    await data.save()
+    data = await User_Favourites.findOne({email: email, password: password})
+    data.email = personalData.email
+    await data.save()
+    data = await Orders.findOne({email: email, password: password})
+    data.email = personalData.email
+    await data.save()
+});
+
+app.post(`/registration_order`, async function (req, res) {
+    let email = req.body.email
+    let password = req.body.password
+    let basket = req.body.basket
+    let personalData = req.body.personalData
+    let total = req.body.total
+    let delivery = req.body.delivery
+    let payment = req.body.payment
+    let data_order = new Date()
+    let data_order_string = String(data_order.getDate()) +"."+ String(data_order.getMonth()+1) +"."+ String(data_order.getFullYear())
+    console.log(email, password, basket, personalData, total, delivery, payment)
+    console.log("Дата:", data_order_string)
+    let data = await Orders.findOne({email: email, password: password})
+    data.orders.push({
+        total: total,
+        status: "В сборке",
+        date: data_order_string,
+        products: basket,
+        data: {
+            firstName: personalData.firstName,
+            lastName: personalData.lastName,
+            phoneNumber: personalData.phoneNumber,
+            emailUser: personalData.email,
+            address: personalData.address,
+            delivery: delivery,
+            payment: payment
+        }
+    })
+    console.log("Получение заказов", data)
+    await data.save()
     res.send(data)
 });

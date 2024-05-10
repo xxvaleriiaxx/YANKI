@@ -141,7 +141,7 @@ export default {
 .product_card_price {
   font-size: 19px;
   font-weight: 1000;
-  font-family: Calibri;
+  font-family: Raleway-YANKI;
   padding-bottom: 20px;
 }
 .product_card_color {
