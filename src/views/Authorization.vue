@@ -52,6 +52,17 @@ export default {
         this.error = true
       }
       console.log(this.user_data)
+      response = await axios.post("/favourites", {
+        email: this.$store.state.user.email,
+        password: this.$store.state.user.password
+      })
+      this.favourites = response.data.favourites
+      this.$store.commit('getting_data_user', {
+        email: this.$store.state.user.email,
+        password: this.$store.state.user.password,
+        basket: this.$store.state.user.basket,
+        favourites: this.favourites
+      })
 
     },
     getting_data_user() {

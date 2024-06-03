@@ -13,20 +13,11 @@ export default {
       classSVG: 'header_svg_undohome',
       classNav: 'header_nav_undohome',
       product_: {},
-      products: [
-        {
-          title: "Кремовое пальто",
-          price: "6300 руб",
-          sizes: ["XS", "S", "M"],
-          colors: ["#FFFFFF", "#6F83A4", "#F1DDAA"],
-          image_main: "product_card1.png",
-          images: ["product_card2.png", "product_card3.png", "product_card4.png"],
-          description: "Кремовое пальто"
-        }
-      ],
       descriptionText: false,
       structureText: false,
-      size_: "M"
+      size_: "M",
+      index_favourite: -1,
+      flag_favourite: false
     }
   },
   methods: {
@@ -35,7 +26,13 @@ export default {
     },
     getting_product() {
       this.product_ = this.$store.state.product_card
+      this.index_favourite = this.$store.state.index_favourite
+      if (this.index_favourite != -1) {
+        this.flag_favourite = true
+      }
       console.log(this.product_)
+      console.log(this.flag_favourite)
+      console.log(this.index_favourite)
     },
     async addToBasket() {
       console.log(this.$store.state.user.email)
@@ -47,6 +44,60 @@ export default {
           size: this.size_
         })
         console.log(response)
+      }
+      else {
+        this.$router.push({
+          name: 'authorization',
+        })
+      }
+    },
+    async update_favourite() {
+      if (this.$store.state.user.email) {
+        console.log(this.index_favourite)
+        if (this.flag_favourite == true) {
+          console.log(this.flag_favourite)
+          let response = await axios.post('/deleteFavourite', {
+            email: this.$store.state.user.email,
+            password: this.$store.state.user.password,
+            favourite_index: this.index_favourite
+          })
+          this.index_favourite = -1
+          this.flag_favourite = false
+          response = await axios.post("/favourites", {
+            email: this.$store.state.user.email,
+            password: this.$store.state.user.password
+          })
+          this.favourites = response.data.favourites
+          this.$store.commit('getting_data_user', {
+            email: this.$store.state.user.email,
+            password: this.$store.state.user.password,
+            basket: this.$store.state.user.basket,
+            favourites: this.favourites
+          })
+        }
+        else {
+            console.log(this.flag_favourite)
+            console.log(1)
+            let response = await axios.post('/addFavourite', {
+              email: this.$store.state.user.email,
+              password: this.$store.state.user.password,
+              favourite: this.product_
+            })
+            console.log(response)
+            this.index_favourite = this.$store.state.user.favourites.length -1
+            this.flag_favourite = true
+            response = await axios.post("/favourites", {
+            email: this.$store.state.user.email,
+            password: this.$store.state.user.password
+            })
+            this.favourites = response.data.favourites
+            this.$store.commit('getting_data_user', {
+            email: this.$store.state.user.email,
+            password: this.$store.state.user.password,
+            basket: this.$store.state.user.basket,
+            favourites: this.favourites
+          })
+        }
       }
       else {
         this.$router.push({
@@ -87,8 +138,9 @@ export default {
           </select>
           <div class="product_card_buttons">
             <button class="product_card_button_basket" @click="addToBasket">В корзину</button>
-            <button class="product_card_button_favorites">
-              <img src="../assets/favourites.svg" alt="">
+            <button class="product_card_button_favorites" @click="update_favourite">
+              <img src="../assets/favourites.svg" alt="" v-if="!flag_favourite">
+              <img src="../assets/like_active.svg" alt="" v-if="flag_favourite">
               <span>В избранное</span>
             </button>
           </div>

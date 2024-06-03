@@ -94,6 +94,35 @@ app.post(`/registration`, async function (req, res) {
         })
         console.log("Новый юзер", user)
         await user.save()
+        let new_data = new User_Basket({
+            email: email,
+            password: password,
+            basket: [{}]
+        })
+        await new_data.save()
+        new_data = new User_Favourites({
+            email: email,
+            password: password,
+            favourites: [{}]
+        })
+        await new_data.save()
+        new_data = new PersonalData({
+            email: email,
+            password: password,
+            data: {
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+                address: ""
+            }
+        })
+        await new_data.save()
+        new_data = new Orders({
+            email: email,
+            password: password,
+            orders: []
+        })
+        await new_data.save()
     }
     else {
         console.log("Вы есть")
@@ -137,10 +166,26 @@ app.post(`/delete`, async function (req, res) {
 });
 
 //Получение каталога
-app.get(`/catalog`, async function (req, res) {
-    let data = await Product.find()
-    console.log(data)
+app.post(`/catalog`, async function (req, res) {
+    let {sort_size, sort_price, sort_color, sort_category} = req.body
+    console.log(sort_size, sort_price, sort_color, sort_category)
+    sort_price = Number(sort_price)
+    let search = {}
+    let search_string = ""
+    if (sort_color && sort_color!="Цвет") {
+        search['colors.color_text'] = sort_color
+    }
+    if (sort_size && sort_size!="Размер") {
+        search['sizes'] = sort_size
+    }
+    if (sort_category) {
+        search['category'] = sort_category
+    }
+    console.log(search)
+    console.log(sort_price)
+    let data = await Product.find(search).sort({price: sort_price})
     res.send(data)
+
 });
 
 //Изменение количества продукта
@@ -167,19 +212,32 @@ app.post(`/addBasket`, async function (req, res) {
     let password = req.body.password
     let product = req.body.product
     let size = req.body.size
+    let flag = false
     console.log(email, password, product)
     let data = await User_Basket.findOne({email: email, password: password})
-    let addProduct = {
-        _id: product._id,
-        image: product.img,
-        title: product.title,
-        color: product.colors[0].color,
-        size: size,
-        count: "1",
-        price: product.price,
+    for (let i = 0; i < data.basket.length; i++) {
+        if (data.basket[i]._id == product._id && data.basket[i].size == size && data.basket[i].color == product.colors[0].color) {
+            data.basket[i].count = String(Number(data.basket[i].count) + 1)
+            console.log(data.basket[i].count)
+            flag = true
+            data.markModified('basket')
+            await data.save()
+        }
     }
-    data.basket.push(addProduct)
-    await data.save()
+    if (flag == false) {
+        let addProduct = {
+            _id: product._id,
+            image: product.img,
+            title: product.title,
+            color: product.colors[0].color,
+            size: size,
+            count: "1",
+            price: product.price,
+        }
+        data.basket.unshift(addProduct)
+        await data.save()
+    }
+
     console.log(data)
     res.send(data)
 });
@@ -207,7 +265,7 @@ app.post(`/addFavourite`, async function (req, res) {
     let favourite = req.body.favourite
     console.log(email, password, "B избранное", favourite)
     let data = await User_Favourites.findOne({email: email, password: password})
-    data.favourites.push(favourite)
+    data.favourites.unshift(favourite)
     console.log("Избранное:", data.favourites)
     await data.save()
     res.send(data)
@@ -261,7 +319,7 @@ app.post(`/update_personal_data`, async function (req, res) {
     data.email = personalData.email
     await data.save()
 });
-
+//Добавление заказа
 app.post(`/registration_order`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
@@ -275,7 +333,7 @@ app.post(`/registration_order`, async function (req, res) {
     console.log(email, password, basket, personalData, total, delivery, payment)
     console.log("Дата:", data_order_string)
     let data = await Orders.findOne({email: email, password: password})
-    data.orders.push({
+    data.orders.unshift({
         total: total,
         status: "В сборке",
         date: data_order_string,

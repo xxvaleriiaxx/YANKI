@@ -19,7 +19,9 @@
         </nav>
       </div>
       <div class="header_logo">
-        <img :src="'src/assets/' + logo" alt="">
+        <router-link :to="{name: 'home'}">
+          <img :src="'src/assets/' + logo" alt="">
+        </router-link>
       </div>
       <div class="header_box_right">
         <div class="image_header">

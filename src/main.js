@@ -9,7 +9,8 @@ const store = createStore({
             user: {},
             basket: [],
             favourites: [],
-            product_card: {}
+            product_card: {},
+            index_favourite: -1
         }
     },
     mutations: {
@@ -19,6 +20,9 @@ const store = createStore({
         },
         getting_product_card(state, active_product) {
             state.product_card = active_product
+        },
+        getting_product_card_favourite(state, index_favourite_product) {
+            state.index_favourite = index_favourite_product
         }
     }
 })

@@ -27,7 +27,7 @@ export default {
         address: ""
       },
       orderActive: false,
-      personalActive: false,
+      personalActive: true,
     };
   },
   methods: {
@@ -82,6 +82,9 @@ export default {
         name: 'home',
       })
     }
+  },
+  mounted() {
+    this.getting_personalData()
   }
 }
 </script>
@@ -133,5 +136,11 @@ button {
 .account_nav_active {
   color: #FFFFFF;
   background-color: #E0BEA2;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 </style>

@@ -30,32 +30,34 @@ export default {
       <div class="main_container">
         <h1 class="main_title">Новая коллекция</h1>
         <hr/>
-        <div class="main_group">
-          <p class="main_text">Смотреть Новинки</p>
-          <img src="../assets/main_arrow.svg" alt="">
-        </div>
+        <router-link :to="{ name: 'catalog' }" class="main_group">
+          <div class="main_text">Смотреть Новинки</div>
+          <div class="main_group_image">
+            <img src="../assets/main_arrow.svg" alt="">
+          </div>
+        </router-link>
       </div>
     </section>
     <section class="categories">
       <div class="categories_container">
         <h2 class="categories_title">Категории</h2>
         <div class="categories_cards_box">
-          <div class="categories_card">
+          <router-link :to="{ name: 'catalog' }" class="categories_card">
             <h3 class="categories_card_title">Куртки</h3>
             <img class="categories_card_image" src="../assets/categories_card1.png" alt="">
-          </div>
-          <div class="categories_card">
+          </router-link>
+          <router-link :to="{ name: 'catalog' }" class="categories_card">
             <h3 class="categories_card_title">Пальто</h3>
             <img class="categories_card_image" src="../assets/categories_card2.png" alt="">
-          </div>
-          <div class="categories_card">
+          </router-link>
+          <router-link :to="{ name: 'catalog' }" class="categories_card">
             <h3 class="categories_card_title">Шубы</h3>
             <img class="categories_card_image" src="../assets/categories_card3.png" alt="">
-          </div>
-          <div class="categories_card">
-            <h3 class="categories_card_title">Парки</h3>
+          </router-link>
+          <router-link :to="{ name: 'catalog' }" class="categories_card">
+            <h3 class="categories_card_title">Дубленки</h3>
             <img class="categories_card_image" src="../assets/categories_card4.png" alt="">
-          </div>
+          </router-link>
         </div>
       </div>
 
@@ -63,7 +65,7 @@ export default {
     <section class="mailing">
       <div class="mailing_container">
         <h2 class="mailing_title">Узнайте  первым о новинках</h2>
-        <form action="">
+        <form @submit.prevent="">
           <input type="text" placeholder="Ваш e-mail*" class="mailing_form_input">
           <button class="mailing_form_button">Подписаться</button>
         </form>
@@ -112,7 +114,7 @@ body {
 
 .main {
   background: url("../assets/bg_main1.png") top left no-repeat, url("../assets/bg_main2.png") top center no-repeat, url("../assets/bg_main3.png") top right no-repeat;
-  background-size: 33.3% 100%, 33.3% 100%, 33.3% 100%;
+  background-size: 33.4% 100%, 33.4% 100%, 33.4% 100%;
   height: 100vh;
   align-items: center;
   display: flex;
@@ -167,7 +169,10 @@ body {
   width: 100%;
   text-align: center;
 }
-
+.categories_card_image {
+  width: 274px;
+  height: 450px;
+}
 .categories_cards_box {
   display: flex;
   justify-content: space-between;
@@ -221,6 +226,14 @@ body {
 
 .mailing {
   padding-bottom: 100px;
+}
+
+.main_group_image {
+  margin-bottom: 4px;
+}
+
+hr {
+  color: #FFFFFF;
 }
 
 .header_svg_home {

@@ -5,7 +5,7 @@
         <div class="footer_box">
           <h3 class="footer_box_title">Компания</h3>
           <div class="footer_box_point">О нас</div>
-          <div class="footer_box_point">Контакты</div>
+          <div class="footer_box_point"><router-link :to="{ name: 'contacts' }" class="footer_box_point_a">Контакты</router-link></div>
         </div>
         <div class="footer_box">
           <h3 class="footer_box_title">Полезное</h3>
@@ -15,7 +15,7 @@
         </div>
         <div class="footer_box">
           <h3 class="footer_box_title">Покупателю</h3>
-          <div class="footer_box_point">Избранное</div>
+          <div class="footer_box_point"><router-link :to="{ name: 'favourites'}" class="footer_box_point_a">Избранное</router-link></div>
           <div class="footer_box_point">Публичная оферта</div>
           <div class="footer_box_point">Политика конфиденциальности</div>
         </div>
@@ -43,13 +43,13 @@
 
 .footer_box_point {
   font-size: 16px;
-  font-weight: 100;
-  color: #252525;
+  font-weight: 300;
+  color: #000000;
   padding-bottom: 15px;
 }
 .footer_box_point_a {
   padding: 0;
-  color: #252525;
+  color: #000000;
 }
 
 .footer_boxes {

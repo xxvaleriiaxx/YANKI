@@ -21,7 +21,9 @@ export default {
         <div class="catalog_card_status" v-if="product.statusNew">new</div>
       </div>
       <div class="catalog_card_price">{{product.price}} руб</div>
-      <div class="catalog_card_size">XXS XS S M L</div>
+      <div class="catalog_card_sizes">
+        <div class="catalog_card_size" v-for="size in product.sizes">{{size}}</div>
+      </div>
       <div class="catalog_card_colors">
         <div class="catalog_card_color" v-for="color in product.colors" :style="{'background-color': color.color}"></div>
       </div>
@@ -32,15 +34,19 @@ export default {
   </div>
 </template>
 <style scoped>
-.catalog_cards {
-  max-width: 960px;
-  width: 960px;
-}
 a {
   color: #000;
 }
+.catalog_card_sizes {
+  display: flex;
+  justify-content: center;
+}
+.catalog_card_size:not(:last-child) {
+  padding-right: 5px;
+}
 .catalog_card {
   width: 310px;
+  cursor: pointer;
   position: relative;
   margin: 15px 15px 15px 0;
   text-align: center;

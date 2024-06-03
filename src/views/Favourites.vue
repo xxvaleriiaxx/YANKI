@@ -32,7 +32,7 @@ export default {
         favourites: this.favourites
       })
       console.log("Vuex")
-      console.log(this.$store.state.user)
+      console.log(this.$store.state.user.favourites)
     },
     async update_favourite(index) {
       console.log(1)

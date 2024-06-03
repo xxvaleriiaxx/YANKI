@@ -9,6 +9,7 @@ import Basket from "../views/Basket.vue"
 import Account from "../views/Account.vue"
 import Favourites from "../views/Favourites.vue"
 import Registration from "../views/Registration.vue";
+import Contacts from "../views/Contacts.vue"
 import {store} from '../main';
 
 const router = createRouter({
@@ -91,7 +92,12 @@ const router = createRouter({
       path: '/registration',
       name: 'registration',
       component: Registration
-    }
+    },
+    {
+      path: '/contacts',
+      name: 'contacts',
+      component: Contacts
+    },
   ]
 })
 export default router
