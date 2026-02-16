@@ -101,4 +101,37 @@ footer {
   left: 0;
   right: 0;
 }
+
+@media screen and (max-width: 750px) {
+  .contacts_boxes {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+  }
+
+  .contacts_box {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .contacts_images {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .contacts {
+    padding-top: 100px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .contacts {
+    padding-top: 70px;
+  }
+
+  .contacts_boxes {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
 </style>

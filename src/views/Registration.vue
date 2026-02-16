@@ -44,8 +44,8 @@ export default {
     <div class="registration_popup_container">
       <h1 class="registration_title">Регистрация</h1>
       <form class="registration_form" @submit.prevent="sendingData">
-        <input type="text" placeholder="Ваш e-mail" v-model="email">
-        <input type="text" placeholder="Ваш пароль" v-model="password">
+        <input type="email" placeholder="Ваш e-mail" v-model="email">
+        <input type="password" placeholder="Ваш пароль" v-model="password">
         <div class="error" v-if="error">Неверная почта или пароль</div>
         <button class="registration_form_button">Зарегистрироваться</button>
       </form>
@@ -128,5 +128,12 @@ input {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+}
+
+@media screen and (max-width: 430px){
+  .registration_popup_container {
+    width: 100%;
+    padding: 50px 20px;
+  }
 }
 </style>

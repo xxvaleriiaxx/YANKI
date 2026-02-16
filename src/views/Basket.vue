@@ -148,6 +148,29 @@ export default {
               <button class="basket_card_delete" @click="delete_product(index)"></button>
             </div>
           </div>
+          <div class="basket_card_tablet" v-for="(product, index) in basket">
+            <div class="basket_card_tablet_box">
+              <div class="basket_card_image">
+                <img :src="product.image" alt="" class="basket_card_box_image">
+              </div>
+              <div class="basket_card_texts">
+                <div class="basket_card_texts_top">
+                  <div class="basket_card_box_title">{{product.title}}</div>
+                  <div class="basket_card_price">{{product.price*product.count}} руб</div>
+                </div>
+                <div class="basket_card_texts_bottom">
+                  <div class="basket_card_color" :style="{'background-color': product.color}"></div>
+                  <div class="basket_card_size">{{product.size}}</div>
+                  <div class="basket_card_count_box">
+                    <div class="basket_card_count_minus" @click="sending_product_count(-1, index)">-</div>
+                    <div class="basket_card_count">{{product.count}}</div>
+                    <div class="basket_card_count_plus" @click="sending_product_count(1, index)">+</div>
+                  </div>
+                  <button class="basket_card_delete" @click="delete_product(index)"></button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="basket_total">К оплате: <span>{{total}} руб</span></div>
       </div>
@@ -160,45 +183,37 @@ export default {
           <div class="order_registration_form">
             <div class="order_registration_col_left">
               <label>Персональыне данные:</label>
-              <div class="row row-cols-2">
-                <div class="col">
+              <div class="dates_form">
+                <div class="date_box">
                   <input placeholder="Ваше имя*" type="text" v-model="personalData.firstName">
                 </div>
-                <div class="col">
+                <div class="date_box">
                   <input placeholder="Ваша фамилия*" type="text" v-model="personalData.lastName">
                 </div>
-                <div class="col">
+                <div class="date_box">
                   <input placeholder="Ваш e-mail*" type="text" v-model="personalData.email">
                 </div>
-                <div class="col">
+                <div class="date_box">
                   <input placeholder="Ваш телефон*" type="text" v-model="personalData.phoneNumber">
                 </div>
               </div>
               <label>Способ доставки:</label>
-              <div class="row row-cols-2">
-                <div class="col">
-                  <div class="order_registration_form_box">
-                    <input value="СДЕК" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
-                    <label>СДЕК</label>
-                  </div>
+              <div class="delivery_form">
+                <div class="order_registration_form_box delivery_box">
+                  <input value="СДЕК" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
+                  <label>СДЕК</label>
                 </div>
-                <div class="col">
-                  <div class="order_registration_form_box">
-                    <input value="Boxberry" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
-                    <label>Boxberry</label>
-                  </div>
+                <div class="order_registration_form_box delivery_box">
+                  <input value="Boxberry" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
+                  <label>Boxberry</label>
                 </div>
-                <div class="col">
-                  <div class="order_registration_form_box">
-                    <input value="Почта России" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
-                    <label>Почта России</label>
-                  </div>
+                <div class="order_registration_form_box delivery_box">
+                  <input value="Почта России" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
+                  <label>Почта России</label>
                 </div>
-                <div class="col">
-                  <div class="order_registration_form_box">
-                    <input value="Курьерская доставка YANKI" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
-                    <label>Курьерская доставка YANKI</label>
-                  </div>
+                <div class="order_registration_form_box delivery_box">
+                  <input value="Курьерская доставка YANKI" type="radio" class="order_registration_radio" name="delivery" v-model="delivery">
+                  <label>Курьерская доставка YANKI</label>
                 </div>
               </div>
               <label>Адресс доставки:</label>
@@ -206,18 +221,14 @@ export default {
                 <input placeholder="Город, улица, дом, квартира*" type="text" v-model="personalData.address">
               </div>
               <label>Оплата:</label>
-              <div class="row row-cols-2">
-                <div class="col">
-                  <div class="order_registration_form_box">
-                    <input value="Безналичными" type="radio" class="order_registration_radio" name="payment" v-model="payment">
-                    <label>Денежным переводом Visa/Mastercard/МИР</label>
-                  </div>
+              <div class="payment_registration_form">
+                <div class="order_registration_form_box payment_box">
+                  <input value="Безналичными" type="radio" class="order_registration_radio" name="payment" v-model="payment">
+                  <label>Денежным переводом Visa/Mastercard/МИР</label>
                 </div>
-                <div class="col">
-                  <div class="order_registration_form_box">
-                    <input value="Наличными" type="radio" class="order_registration_radio" name="payment" v-model="payment">
-                    <label>Наличными</label>
-                  </div>
+                <div class="order_registration_form_box payment_box">
+                  <input value="Наличными" type="radio" class="order_registration_radio" name="payment" v-model="payment">
+                  <label>Наличными</label>
                 </div>
               </div>
             </div>
@@ -236,6 +247,30 @@ export default {
   <footer-component></footer-component>
 </template>
 <style scoped>
+.basket_card_tablet {
+  display: none;
+}
+.dates_form {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.date_box {
+  margin-right: 15px;
+}
+
+.delivery_form {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.payment_registration_form {
+  display: flex;
+}
+
+.payment_box:first-child {
+  margin-right: 50px;
+}
 .basket_card_box_image {
   width: 90px;
   height: 110px;
@@ -409,5 +444,153 @@ input[type="text"] {
 }
 .order_registration {
   margin: 70px 0 100px;
+}
+
+@media all and (max-width: 1140px) {
+  .payment_registration_form {
+    display: block;
+  }
+
+  .payment_box:first-child {
+    margin-right: 0;
+  }
+}
+
+@media all and (max-width: 900px) {
+  .order_registration_button {
+    padding: 16px 20px;
+  }
+
+  .delivery_form {
+    display: block;
+  }
+
+  .dates_form {
+    display: block;
+  }
+
+  .date_box {
+    margin-right: 0;
+  }
+
+  .order_registration_col_right {
+    min-width: 200px;
+  }
+
+  .basket_card {
+    display: none;
+  }
+
+  .basket_card_tablet {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .basket_card_tablet_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .basket_card_texts_top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .basket_card_texts_bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .basket_card_texts {
+    width: 100%;
+    margin-left: 20px;
+  }
+
+  .basket_card_box_title {
+    padding-left: 0;
+  }
+
+  .basket_card_price {
+    padding-right: 0;
+  }
+
+  .basket_container {
+    max-width: none;
+  }
+
+  .basket_card_texts_top, .basket_card_texts_bottom {
+    width: 100%;
+  }
+
+  .basket_card_price, .basket_card_box_title {
+    width: 100%;
+  }
+
+  .basket {
+    padding-top: 100px;
+  }
+}
+
+@media all and (max-width: 550px) {
+  .order_registration_form {
+    flex-direction: column;
+  }
+
+  .order_registration_col_left, .order_registration_col_right {
+    width: 100%;
+  }
+
+  input[type="text"] {
+    margin: 0 0 20px 0;
+  }
+
+  .basket {
+    padding-top: 70px;
+  }
+
+  .basket_card_box_title, .basket_card_price {
+    font-size: 14px;
+  }
+
+  .basket_card_count_box {
+    padding: 12px 10px;
+  }
+
+  .basket_card_count {
+    padding: 0 5px;
+  }
+
+  .basket_card_texts_top {
+    align-items: center;
+  }
+
+  .order_registration_col_left > *, .order_registration_form_box > label {
+    font-size: 14px;
+  }
+
+  .order_registration_title {
+    font-size: 18px;
+    padding-bottom: 15px;
+  }
+
+  .order_registration{
+    margin-top: 50px;
+  }
+
+  .basket_card_texts_top {
+    display: block;
+  }
+
+  .basket_card_price {
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .order_registration_form_box {
+    display: flex;
+  }
 }
 </style>

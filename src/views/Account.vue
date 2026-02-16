@@ -74,6 +74,7 @@ export default {
       })
     },
     exit() {
+      this.$store.state.take_reload = true
       this.$store.commit('getting_data_user', {
         email: "",
         password: ""
@@ -94,8 +95,8 @@ export default {
     <section class="account">
       <div class="account_container">
         <div class="account_nav">
-          <button @click="getting_orders" :class="{'account_nav_active': orderActive}">История заказов</button>
-          <button @click="getting_personalData" :class="{'account_nav_active': personalActive}">Личные данные</button>
+          <button @click="getting_orders" :class="{'account_nav_active': orderActive}" class="acc_nav">История заказов</button>
+          <button @click="getting_personalData" :class="{'account_nav_active': personalActive}" class="acc_nav">Личные данные</button>
           <button @click="exit">Выйти</button>
         </div>
         <div class="account_orders" v-if="orderActive">
@@ -128,7 +129,7 @@ button {
   text-align: center;
 }
 .account {
-  padding: 144px 0 0 0;
+  padding: 144px 0 100px 0;
 }
 .account_orders {
   margin-top: 20px;
@@ -138,9 +139,36 @@ button {
   background-color: #E0BEA2;
 }
 footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  position: relative;
+}
+
+@media all and (max-width: 900px) {
+  .account {
+    padding-bottom: 100px;
+  }
+
+  footer {
+    position: relative;
+  }
+}
+
+@media all and (max-width: 650px) {
+  .account {
+    padding-top: 100px;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .account {
+    padding-top: 70px;
+  }
+
+  .account_nav > button{
+    padding: 12px 0;
+  }
+
+  .acc_nav{
+    width: 50%;
+  }
 }
 </style>

@@ -85,4 +85,29 @@ footer {
   right: 0;
   left: 0;
 }
+
+.delivery-payment_box:first-child {
+  margin-right: 15px;
+}
+
+@media screen and (max-width: 650px){
+  .delivery-payment_container {
+    padding-top: 100px;
+  }
+
+  .delivery-payment_boxes {
+    display: block;
+  }
+
+  .delivery-payment_box:first-child {
+    margin-bottom: 15px;
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .delivery-payment_container {
+    padding-top: 70px;
+  }
+}
 </style>

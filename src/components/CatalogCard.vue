@@ -97,6 +97,36 @@ a {
 .catalog_card_title {
   max-width: 220px;
 }
+
+@media all and (max-width: 1140px) {
+  .catalog_card_img, .catalog_card {
+    width: 100%;
+    height: auto;
+  }
+
+  .catalog_card {
+    width: 98%;
+  }
+
+  .col {
+    margin: 15px 15px 15px 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .catalog_card_status {
+    display: none;
+  }
+
+  .catalog_card_title, .catalog_card_price, .catalog_card_size {
+    font-size: 14px;
+  }
+
+  .catalog_card {
+    margin: 3px;
+  }
+
+}
 </style>
 <style>
 .catalog_card_like {

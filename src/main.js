@@ -10,7 +10,8 @@ const store = createStore({
             basket: [],
             favourites: [],
             product_card: {},
-            index_favourite: -1
+            index_favourite: -1,
+            take_reload: false,
         }
     },
     mutations: {

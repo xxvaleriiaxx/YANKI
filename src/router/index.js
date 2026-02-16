@@ -18,7 +18,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomePage
+        replace: true,
+      component: HomePage,
     },
     {
       path: '/catalog',

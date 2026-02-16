@@ -25,7 +25,10 @@ export default {
       sort_price: 1,
       sort_size: "Размер",
       sort_color: "Цвет",
-      sort_category: ""
+      sort_category: "",
+      open_categories_flag: false,
+      open_filters_flag: false,
+      sort_price_flag: true
     }
   },
   methods: {
@@ -160,6 +163,12 @@ export default {
     setting_sort_price(sort_price) {
       this.sort_price = sort_price
       this.sort_products()
+      if (this.sort_price == 1) {
+        this.sort_price_flag = true
+      }
+      else {
+        this.sort_price_flag = false
+      }
     },
     setting_sort_category(sort_category, index) {
       this.sort_category = sort_category
@@ -178,6 +187,23 @@ export default {
       if (this.set_category_active.indexOf(true) != -1) {
         this.set_category_active[this.set_category_active.indexOf(true)] = false
       }
+      this.sort_price_flag = true
+    },
+    open_categories() {
+      if (this.open_categories_flag) {
+        this.open_categories_flag = false
+      }
+      else {
+        this.open_categories_flag = true
+      }
+    },
+    open_filters() {
+      if (this.open_filters_flag) {
+        this.open_filters_flag = false
+      }
+      else {
+        this.open_filters_flag = true
+      }
     }
   },
   mounted() {
@@ -190,32 +216,60 @@ export default {
 <main>
   <div class="catalog_container">
       <div class="catalog_sidebar">
-        <h1 class="catalog_title">Каталог</h1>
-        <div class="catalog_sidebar_brands">
+        <h1 class="catalog_title catalog_title_desktop">Каталог</h1>
+        <div class="catalog_title_box" @click="open_categories">
+          <h1 class="catalog_title">Каталог</h1>
+          <svg width="10" height="7" viewBox="0 0 10 7" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg" :class="{'reverse_arrow': open_categories_flag}">
+            <path d="M5 3.88903L8.88906 -3.05661e-05L10 1.11091L5 6.1109L-4.85606e-08 1.1109L1.11094 -3.09061e-05L5 3.88903Z" fill=""/>
+          </svg>
+        </div>
+        <div class="catalog_sidebar_brands" :class="{'catalog_sidebar_brands_open': open_categories_flag}">
           <ul>
             <li class="catalog_brand" v-for="(category, index) in set_category" @click="setting_sort_category(category, index)" :class="{'catalog_brand_active': set_category_active[index]}">{{category}}</li>
           </ul>
         </div>
       </div>
       <div class="catalog_main">
-        <div class="catalog_filters">
-          <select size="1" class="select_size" v-model="sort_size" @change="sort_products()">
-            <option selected>Размер</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>0
-            <option value="L">L</option>
-          </select>
-          <select size="1" class="select_color" v-model="sort_color" @change="sort_products()">
-            <option selected>Цвет</option>
-            <option v-for="color in set_colors" :value="color">{{color}}</option>
-          </select>
-          <input value="-1" type="radio" class="input_sort" name="sort" checked @click="setting_sort_price(1)">
-          <input value="1" type="radio" class="input_sort input_sort_rotate" name="sort" @click="setting_sort_price(-1)">
-          <span class="catalog_filters_delete" @click="delete_filters">Очистить фильтры</span>
+        <div class="catalog_main_filters" @click="open_filters">
+          <div class="catalog_main_filters_text">
+            <div class="catalog_filters_text">Фильтры</div>
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_372_321)">
+                <path d="M8.75 8.75V12.5L6.25 13.75V8.75L2.5 3.125V1.875H12.5V3.125L8.75 8.75ZM4.0025 3.125L7.5 8.37125L10.9975 3.125H4.0025Z" fill="#E0BEA2"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_372_321">
+                  <rect width="15" height="15" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <svg width="10" height="7" viewBox="0 0 10 7" fill="#E0BEA2" xmlns="http://www.w3.org/2000/svg" :class="{'reverse_arrow': open_filters_flag}">
+            <path d="M5 3.88903L8.88906 -3.05661e-05L10 1.11091L5 6.1109L-4.85606e-08 1.1109L1.11094 -3.09061e-05L5 3.88903Z" fill=""/>
+          </svg>
         </div>
-        <div class="catalog_cards row row-cols-3">
-          <div class="col" v-for="(prod, index) in products">
+        <div class="catalog_main_box" :class="{'catalog_filters_open': open_filters_flag}">
+          <div class="catalog_filters">
+            <select size="1" class="select_size" v-model="sort_size" @change="sort_products()">
+              <option selected>Размер</option>
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+            </select>
+            <select size="1" class="select_color" v-model="sort_color" @change="sort_products()">
+              <option selected>Цвет</option>
+              <option v-for="color in set_colors" :value="color">{{color}}</option>
+            </select>
+            <div class="filters_price">
+              <input value="-1" type="radio" class="input_sort" name="sort" checked @click="setting_sort_price(1)" :class="{'input_sort_true': sort_price_flag}">
+              <input value="1" type="radio" class="input_sort input_sort_rotate" name="sort" @click="setting_sort_price(-1)" :class="{'input_sort_true': !sort_price_flag}">
+            </div>
+            <span class="catalog_filters_delete" @click="delete_filters">Очистить фильтры</span>
+          </div>
+        </div>
+        <div class="catalog_cards">
+          <div class="catalog_card_box" v-for="(prod, index) in products">
             <catalog-card :product="prod" v-on:opening_card="opening_card(prod, index)" v-on:update_favourite="update_favourite(prod, index)" :favourite_active="card_favourites[index]"></catalog-card>
           </div>
         </div>
@@ -225,6 +279,20 @@ export default {
 <footer-component></footer-component>
 </template>
 <style scoped>
+
+.catalog_main_filters {
+  display: none;
+}
+
+.catalog_title_box {
+  display: none;
+}
+
+.catalog_cards {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+
 .catalog_sidebar_brands {
   padding-bottom: 100px;
 }
@@ -240,7 +308,7 @@ export default {
 .input_sort_rotate {
   transform: rotate(180deg);
 }
-.input_sort:checked {
+.input_sort_true{
   background-color: #f5f5f5;
   outline: 1px solid #bbbbbb;
   border-radius: 20px;
@@ -341,6 +409,158 @@ body {
     cursor: pointer;
     border-bottom: 1px solid #939393;
   }
+
+  @media all and (max-width: 900px) {
+    .catalog_cards {
+      grid-template-columns: 50% 50%;
+    }
+  }
+
+@media all and (max-width: 680px) {
+  .catalog_filters_delete {
+    border: none;
+  }
+
+  .catalog_container {
+    flex-direction: column;
+  }
+
+  .catalog_sidebar_brands {
+    padding-bottom: 15px;
+  }
+
+  .catalog_title_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 9px 15px 9px;
+    width: 100%;
+    background-color: #E0BEA2;
+    cursor: pointer;
+  }
+
+  .catalog_arrow_tablet {
+    display: block;
+  }
+
+  .catalog_title_desktop {
+    display: none;
+  }
+
+  .catalog_title {
+    padding: 0;
+    margin-right: 5px;
+    color: #ffffff;
+  }
+
+  .catalog_main {
+    width: 100%;
+  }
+
+  .catalog_sidebar {
+    max-width: none;
+  }
+
+  main {
+    padding-top: 99px;
+  }
+
+  .catalog_sidebar_brands {
+    display: none;
+  }
+
+  .catalog_sidebar_brands_open {
+    display: block;
+    text-align: center;
+    background-color: #E0BEA2;
+  }
+
+  .catalog_brand {
+    font-size: 18px;
+    color: #ffffff;
+    padding: 5px 0;
+    margin: 0 20px;
+  }
+
+  .catalog_brand:not(:last-child) {
+    border-bottom: 1px solid #717070;
+  }
+
+  .catalog_brand:first-child {
+    padding-top: 10px;
+  }
+
+  .catalog_sidebar {
+    margin-bottom: 15px;
+  }
+  
+  .catalog_main_box {
+    display: none;
+  }
+  
+  .catalog_main_filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #717070;
+    margin-bottom: 15px;
+  }
+
+  .catalog_filters_text {
+    margin-right: 5px;
+    font-size: 20px;
+  }
+
+  .catalog_main_filters_text {
+    display: flex;
+    align-items: center;
+  }
+
+  .catalog_filters_open {
+    display: block;
+  }
+
+  .catalog_filters {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+    justify-items: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .catalog_filters_delete {
+    margin: 0;
+  }
+
+  .select_size, .select_color {
+    margin: 0 0 10px 0;
+  }
+
+  .catalog_main_filters {
+    cursor: pointer;
+  }
+
+  .reverse_arrow {
+    transform: rotate(180deg);
+  }
+}
+
+@media all and (max-width: 500px) {
+  .catalog_title {
+    font-size: 18px;
+  }
+
+  .catalog_filters_text {
+    font-size: 18px;
+  }
+
+  .catalog_cards {
+    padding-bottom: 60px;
+  }
+}
 </style>
 <style>
 .header_nav_undohome {

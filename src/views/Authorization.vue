@@ -3,11 +3,10 @@
     <div class="authorization_popup_container">
       <h1 class="authorization_title">Авторизация</h1>
       <form class="authorization_form" @submit.prevent="gettingData">
-        <input type="text" placeholder="Ваш e-mail" v-model="email">
-        <input type="text" placeholder="Ваш пароль" v-model="password">
+        <input type="email" placeholder="Ваш e-mail" v-model="email">
+        <input type="password" placeholder="Ваш пароль" v-model="password">
         <div class="error" v-if="error">Неверная почта или пароль</div>
         <div class="authorization_form_box">
-          <a class="authorization_form_box_text" href="#">Забыли пароль?</a>
           <router-link class="authorization_form_box_text" :to="{name: 'registration'}">Нет аккаунта?</router-link>
         </div>
         <button class="authorization_form_button">Войти</button>
@@ -145,7 +144,20 @@ input {
 }
 .authorization_form_box {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   padding: 10px 0;
+}
+
+@media screen and (max-width: 430px){
+  .authorization_popup_container {
+    width: 100%;
+    padding: 50px 20px;
+  }
+}
+
+@media screen and (max-width: 350px){
+  .authorization_form_box_text, .authorization_form_box_text {
+    font-size: 14px;
+  }
 }
 </style>

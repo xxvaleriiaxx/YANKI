@@ -97,13 +97,13 @@ app.post(`/registration`, async function (req, res) {
         let new_data = new User_Basket({
             email: email,
             password: password,
-            basket: [{}]
+            basket: []
         })
         await new_data.save()
         new_data = new User_Favourites({
             email: email,
             password: password,
-            favourites: [{}]
+            favourites: []
         })
         await new_data.save()
         new_data = new PersonalData({
@@ -210,18 +210,24 @@ app.post(`/count_product`, async function (req, res) {
 app.post(`/addBasket`, async function (req, res) {
     let email = req.body.email
     let password = req.body.password
+    let color = req.body.color
     let product = req.body.product
     let size = req.body.size
     let flag = false
     console.log(email, password, product)
     let data = await User_Basket.findOne({email: email, password: password})
-    for (let i = 0; i < data.basket.length; i++) {
-        if (data.basket[i]._id == product._id && data.basket[i].size == size && data.basket[i].color == product.colors[0].color) {
-            data.basket[i].count = String(Number(data.basket[i].count) + 1)
-            console.log(data.basket[i].count)
-            flag = true
-            data.markModified('basket')
-            await data.save()
+    if (data.basket == null) {
+        flag = true
+    }
+    else {
+        for (let i = 0; i < data.basket.length; i++) {
+            if (data.basket[i]._id == product._id && data.basket[i].size == size && data.basket[i].color == color) {
+                data.basket[i].count = String(Number(data.basket[i].count) + 1)
+                console.log(data.basket[i].count)
+                flag = true
+                data.markModified('basket')
+                await data.save()
+            }
         }
     }
     if (flag == false) {
@@ -229,7 +235,7 @@ app.post(`/addBasket`, async function (req, res) {
             _id: product._id,
             image: product.img,
             title: product.title,
-            color: product.colors[0].color,
+            color: color,
             size: size,
             count: "1",
             price: product.price,

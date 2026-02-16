@@ -45,6 +45,24 @@ export default {
           <div class="order_card_price">{{product.price*product.count}} руб</div>
         </div>
       </div>
+      <div class="order_card_product_tablet" v-for="product in order.products">
+        <div class="order_card_product_tablet_image">
+          <img :src="product.image" alt="" class="order_card_box_image">
+        </div>
+        <div class="order_card_product_tablet_texts">
+          <div class="order_card_product_tablet_texts_top">
+            <div class="order_card_product_tablet_texts_top_title">{{product.title}}</div>
+            <div class="order_card_price">{{product.price*product.count}} руб</div>
+          </div>
+          <div class="order_card_product_tablet_texts_bottom">
+            <div class="order_card_color" :style="{'background-color': product.color}"></div>
+            <div class="order_card_size">Размер: {{product.size}}</div>
+            <div class="order_card_count">Количество: {{product.count}}</div>
+            <div class="order_card_size_mobile">{{product.size}}</div>
+            <div class="order_card_count_mobile">{{product.count}}</div>
+          </div>
+        </div>
+      </div>
       <div class="order_card_personalData">
         <div class="order_card_personalData_box">
           <div>Имя Фамилия: {{order.data.firstName}} {{order.data.lastName}}</div>
@@ -60,6 +78,9 @@ export default {
   </div>
 </template>
 <style scoped>
+.order_card_product, .order_card_product_tablet {
+  padding-bottom: 20px;
+}
 .order_card_box_image {
   width: 95px;
 }
@@ -121,5 +142,86 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding-top: 20px;
+}
+
+.order_card_product_tablet {
+  display: none;
+}
+
+@media all and (max-width: 900px) {
+  .order_card_product {
+    display: none;
+  }
+
+  .order_card_product_tablet {
+    display: flex;
+  }
+
+  .order_card_count_mobile, .order_card_size_mobile {
+    display: none;
+  }
+
+  .order_card_product_tablet_texts {
+    width: 100%;
+    margin-left: 20px;
+  }
+  .order_card_product_tablet_texts_top, .order_card_product_tablet_texts_bottom {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .order_card_product_tablet_texts_top {
+    margin-bottom: 15px;
+  }
+
+  .order_card_color {
+    border: 1px solid #8d8d8d;
+    border-radius: 100%;
+  }
+
+  .order_card_personalData_box {
+    display: block;
+  }
+
+  .order_card_personalData_box > div{
+    margin-bottom: 10px;
+  }
+
+  .order_inactive {
+    padding-top: 15px;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .order_card_size, .order_card_count {
+    display: none;
+  }
+
+  .order_card_size_mobile, .order_card_count_mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    min-height: 40px;
+    border: 1px solid #252525;
+    padding: 0 15px;
+  }
+
+  .order_card_price {
+    width: auto;
+    margin-left: 5px;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .order_card_product_tablet_texts_top {
+    display: block;
+  }
+
+  .order_card_price {
+    text-align: left;
+    margin-left: 0;
+    margin-top: 10px;
+  }
 }
 </style>

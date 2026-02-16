@@ -11,8 +11,7 @@ export default {
     return {
       logo: 'logo.svg',
       classSVG: 'header_svg_home',
-      classNav: 'header_nav_home'
-
+      classNav: 'header_nav_home',
     };
   },
   methods: {
@@ -20,7 +19,14 @@ export default {
       this.$store.commit('getting_data_user')
       console.log(this.$store.state.user)
     }
-  }
+  },
+  mounted() {
+    if (this.$store.state.take_reload === true) {
+      this.$store.state.take_reload = false;
+      location.reload();
+      console.log("rghnei9g")
+    }
+  },
 };
 </script>
 <template>
@@ -37,10 +43,62 @@ export default {
           </div>
         </router-link>
       </div>
+      <div class="main_slider_tablet">
+        <div class="main_slider_tablet_slide">
+          <h1 class="main_title">Новая коллекция</h1>
+          <hr/>
+          <router-link :to="{ name: 'catalog' }" class="main_group">
+            <div class="main_text">Смотреть Новинки</div>
+            <img src="../assets/main_arrow.svg" alt="">
+          </router-link>
+        </div>
+        <div class="main_slider_tablet_slide main_slider_tablet_slide_second">
+          <h1 class="main_title">Новая коллекция</h1>
+          <hr/>
+          <router-link :to="{ name: 'catalog' }" class="main_group">
+            <div class="main_text">Смотреть Новинки</div>
+            <img src="../assets/main_arrow.svg" alt="">
+          </router-link>
+        </div>
+        <div class="main_slider_tablet_slide main_slider_tablet_slide_third">
+          <h1 class="main_title">Новая коллекция</h1>
+          <hr/>
+          <router-link :to="{ name: 'catalog' }" class="main_group">
+            <div class="main_text">Смотреть Новинки</div>
+            <img src="../assets/main_arrow.svg" alt="">
+          </router-link>
+        </div>
+      </div>
     </section>
     <section class="categories">
       <div class="categories_container">
         <h2 class="categories_title">Категории</h2>
+        <div class="categories_slider">
+          <div class="categories_slide">
+            <router-link :to="{ name: 'catalog' }" class="categories_card">
+              <h3 class="categories_card_title">Куртки</h3>
+              <img class="categories_card_image" src="../assets/categories_card1.png" alt="">
+            </router-link>
+          </div>
+          <div class="categories_slide">
+            <router-link :to="{ name: 'catalog' }" class="categories_card">
+              <h3 class="categories_card_title">Пальто</h3>
+              <img class="categories_card_image" src="../assets/categories_card2.png" alt="">
+            </router-link>
+          </div>
+          <div class="categories_slide">
+            <router-link :to="{ name: 'catalog' }" class="categories_card">
+              <h3 class="categories_card_title">Шубы</h3>
+              <img class="categories_card_image" src="../assets/categories_card3.png" alt="">
+            </router-link>
+          </div>
+          <div class="categories_slide">
+            <router-link :to="{ name: 'catalog' }" class="categories_card">
+              <h3 class="categories_card_title">Дубленки</h3>
+              <img class="categories_card_image" src="../assets/categories_card4.png" alt="">
+            </router-link>
+          </div>
+        </div>
         <div class="categories_cards_box">
           <router-link :to="{ name: 'catalog' }" class="categories_card">
             <h3 class="categories_card_title">Куртки</h3>
@@ -97,6 +155,14 @@ export default {
   url('../fonts/Raleway-Bold.woff') format('woff');
   font-weight: 800;
   font-style: normal;
+}
+
+.categories_slider {
+  display: none;
+}
+
+.main_slider_tablet {
+  display: none;
 }
 
 body {
@@ -242,6 +308,116 @@ hr {
 
 .header_nav_home {
   color: #FFF;
+}
+
+@media all and (max-width: 1140px) {
+  .main_container {
+    margin: 300px 0;
+  }
+
+  .main {
+    height: auto;
+  }
+
+  .categories_card_image {
+    width: 100%;
+    height: auto;
+  }
+
+  .categories_card {
+    width: 25%;
+    height: auto;
+  }
+}
+
+@media all and (max-width: 650px) {
+  .main_slider_tablet {
+    display: block;
+    max-height: 600px;
+  }
+
+  .main_container {
+    display: none;
+  }
+
+  .main {
+    background: none;
+  }
+
+  .categories_cards_box {
+    display: none;
+  }
+
+  .categories_slider {
+    display: block;
+  }
+
+  .main_slider_tablet_slide {
+    width: 100%;
+    background-image: url("../assets/bg_main1.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 290px 15px;
+    text-align: center;
+  }
+
+  .main_slider_tablet_slide_second {
+    background-image: url("../assets/bg_main2.png");
+  }
+
+  .main_slider_tablet_slide_third {
+    background-image: url("../assets/bg_main3.png");
+  }
+
+  .main_slider_tablet_slide > hr {
+    width: 120px;
+    margin: 15px auto;
+  }
+
+  .main_slider_tablet {
+    width: 100%;
+  }
+
+  .categories_card_image {
+    object-fit: cover;
+    object-position: 0 0;
+    max-height: 400px;
+  }
+
+  .mailing_container {
+    padding: 0 15px;
+  }
+}
+
+@media all and (max-width: 450px) {
+  .main_slider_tablet_slide {
+    padding: 250px 0;
+  }
+
+  .main_title {
+    font-size: 38px;
+  }
+
+  .categories_title, .mailing_title {
+    font-size: 24px;
+  }
+
+  .categories_title {
+    padding-top: 30px;
+    padding-bottom: 22px;
+  }
+
+  .categories {
+    padding-bottom: 30px;
+  }
+
+  .mailing_title {
+    padding-bottom: 30px;
+  }
+
+  .mailing {
+    padding-bottom: 60px;
+  }
 }
 </style>
 <style scoped>

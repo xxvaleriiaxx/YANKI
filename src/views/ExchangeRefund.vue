@@ -100,6 +100,75 @@ footer {
   right: 0;
   left: 0;
 }
+
+.exchange-refund_conditions {
+  display: flex;
+}
+
+.exchange-refund_condition:not(:first-child) {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 900px){
+  .exchange-refund_conditions {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+  }
+
+  .exchange-refund_condition {
+    margin-left: 0;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  .exchange-refund_condition:nth-child(2), .exchange-refund_condition:nth-child(4), .exchange-refund_condition:nth-child(6)  {
+    margin-left: 20px;
+  }
+
+  footer {
+    position: relative;
+  }
+
+  .exchange-refund_container {
+    margin-bottom: 100px;
+  }
+}
+
+@media screen and (max-width: 650px){
+  .exchange-refund_container {
+    padding-top: 100px;
+  }
+
+  .exchange-refund_conditions {
+    display: grid;
+    grid-template-columns: 48% 48%;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .exchange-refund_container {
+    padding-top: 70px;
+  }
+
+  .exchange-refund_condition_text {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 450px){
+  .exchange-refund_conditions {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .exchange-refund_condition:nth-child(2), .exchange-refund_condition:nth-child(4), .exchange-refund_condition:nth-child(6)  {
+    margin-left: 0;
+  }
+
+  .exchange-refund_condition:not(:first-child) {
+    margin-left: 0;
+  }
+}
 </style>
 <style>
 .header_nav_undohome {
